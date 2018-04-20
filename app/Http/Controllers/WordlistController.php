@@ -48,24 +48,42 @@ class WordlistController extends Controller
       return view('wordlist/test');
     }
 
-    public function card(){
+    public function card(Request $request){
+      $type = $request->has('type') ? $request->type : 'random';
+      $initial = $request->has('initial') ? $request->initial : 'A';
+      $listNumber = $request->has('list_number') ? $request->list_number : 1;
+      $familiar = $request->has('hard') ? $request->hard : 10;
+
+      $cardType=array('random','alphabet','hard','list');
+
       $showCount = 52;
       $showColumn=4;
-      // $all = Wordlist::all();
-      // $totalCount = count($all);
-      // $randNum = rand(1,$totalCount);
-      // if ( $randNum >= ($totalCount-$showCount) ){
-      //   $randNum = $totalCount-$showCount;
-      // }elseif($randNum < $showCount){
-      //   $randNum = 1;
-      // }
-      // $wordlist =  Wordlist::skip($randNum)->take($showCount)->get();
 
       //库支持直接rand取 LOL
-      $wordlist = Wordlist::orderByRaw('RAND()')->take($showCount)->get();
+      switch($type){
+        case 'random':
+          $wordlist= Wordlist::orderByRaw('RAND()')->take($showCount)->get();
+          break;
+        case 'alphabet':
+          $wordlist= Wordlist::where('initial',$initial)
+            ->orderByRaw('RAND()')->take($showCount)->get();
+          break;
+        case 'hard':
+          $wordlist= Wordlist::where('familiar',$familiar)
+            ->orderByRaw('RAND()')->take($showCount)->get();
+          break;
+        case 'list':
+          $wordlist= Wordlist::where('list_number',$listNumber)
+            ->orderByRaw('RAND()')->take($showCount)->get();
+          break;
+      }
 
 
-      return view('wordlist/card',['showColumn'=>$showColumn])->withWordlists($wordlist);
+      return view('wordlist/card',['showColumn'=>$showColumn,
+        'initial'=>$initial,'list_number'=>$listNumber,
+        'familiar'=>$familiar,'alphabet'=>$this->alphabet,
+        'cardTypes'=>$cardType,'type'=>$type])
+        ->withWordlists($wordlist);
     }
 
 

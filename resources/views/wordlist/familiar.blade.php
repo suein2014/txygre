@@ -28,7 +28,6 @@
             </li>
           @endfor
       </ul>
-        </ul>
       </div>
     </td>
     <td>
