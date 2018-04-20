@@ -35,16 +35,22 @@
         <div class="card-header">
             排序:
             <a class="btn btn-primary" role="button" href="{{ url('wordlist/olist/'.$initial) }}">
-              Olist {{$initial}}
+              Alphabet {{$initial}}
             </a>
-            <a class="btn btn-warning" role="button" href="{{ url('wordlist/olist/'.$initial.'?type=olist_desc') }}">
-              Olist Desc
+            <a class="btn btn-warning" role="button" href="{{ url('wordlist/olist/'.$initial.'?type=alphabet_desc') }}">
+              Alphabet Desc
             </a>
             <a class="btn btn-danger" role="button" href="{{ url('wordlist/olist/'.$initial.'?type=hard') }}">
               Hard
             </a>
             <a class="btn btn-info" role="button" href="{{ url('wordlist/olist/'.$initial.'?type=hard_desc') }}">
               Hard Desc
+            </a>
+            <a class="btn btn-primary" role="button" href="{{ url('wordlist/olist/'.$initial.'?type=olist') }}">
+              Olist {{$initial}}
+            </a>
+            <a class="btn btn-warning" role="button" href="{{ url('wordlist/olist/'.$initial.'?type=olist_desc') }}">
+              Olist Desc
             </a>
             <div style="float:right">{{$wordlists->appends(['type'=>$type])->links()}}</div>
             <br/>
@@ -93,7 +99,7 @@
                         <td>
                           @if ($wordlist->familiar>5)
                             <a class="btn btn-outline-secondary btn-sm"
-                             style="color:{{$colors[$wordlist->familiar]}}"
+                             style="font-weight:bold;color:{{$colors[$wordlist->familiar]}}"
                              href="{{ url('wordlist/'.$wordlist->id) }}">
                           @else
                             <a style="color:{{$colors[$wordlist->familiar]}}" href="{{ url('wordlist/'.$wordlist->id) }}">

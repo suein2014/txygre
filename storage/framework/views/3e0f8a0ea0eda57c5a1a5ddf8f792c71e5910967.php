@@ -3,7 +3,7 @@
   <thead>
     <tr>
       <th>Wordlist</th>
-      <th>Words-<?php echo e($type); ?></th>
+      <th>Words-<?php echo e($hardLevel); ?>-<?php echo e($type); ?></th>
     </tr>
   </thead>
   <tbody>
@@ -11,20 +11,21 @@
       <td>
       <div class="card">
         <ul class="list-group">
-            <?php $__currentLoopData = $alphabet; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ab): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-              <?php if($initial==$ab): ?>
-                <li class="list-group-item active" >
-              <?php else: ?>
-                <li class="list-group-item">
-              <?php endif; ?>
-                <div class="list">
-                    <a href="<?php echo e(url('wordlist/olist/'.$ab)); ?>"
-                    style="text-decoration:none;color:black;font-weight:bold;" >
-                        <h4><?php echo e($ab); ?></h4>
-                    </a>
-                </div>
-              </li>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+          <?php for($i=10; $i>0;$i--): ?>
+            <?php if($hardLevel==$i): ?>
+              <li class="list-group-item active" >
+            <?php else: ?>
+              <li class="list-group-item">
+            <?php endif; ?>
+              <div class="list">
+                  <a href="<?php echo e(url('wordlist/familiar/'.$i)); ?>"
+                  style="text-decoration:none;color:black;font-weight:bold;" >
+                      <h4>Hard  <?php echo e($i); ?></h4>
+                  </a>
+              </div>
+            </li>
+          <?php endfor; ?>
+      </ul>
         </ul>
       </div>
     </td>
@@ -32,25 +33,17 @@
       <div class="card">
         <div class="card-header">
             排序:
-            <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/olist/'.$initial)); ?>">
-              Alphabet <?php echo e($initial); ?>
-
+            <a class="btn btn-danger" role="button" href="<?php echo e(url('wordlist/familiar/'.$hardLevel.'?type=alphabet')); ?>">
+              Alphabet
             </a>
-            <a class="btn btn-warning" role="button" href="<?php echo e(url('wordlist/olist/'.$initial.'?type=alphabet_desc')); ?>">
+            <a class="btn btn-info" role="button" href="<?php echo e(url('wordlist/familiar/'.$hardLevel.'?type=alphabet_desc')); ?>">
               Alphabet Desc
             </a>
-            <a class="btn btn-danger" role="button" href="<?php echo e(url('wordlist/olist/'.$initial.'?type=hard')); ?>">
-              Hard
+            <a class="btn btn-success" role="button" href="<?php echo e(url('wordlist/familiar/'.$hardLevel.'?type=list')); ?>">
+              List
             </a>
-            <a class="btn btn-info" role="button" href="<?php echo e(url('wordlist/olist/'.$initial.'?type=hard_desc')); ?>">
-              Hard Desc
-            </a>
-            <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/olist/'.$initial.'?type=olist')); ?>">
-              Olist <?php echo e($initial); ?>
-
-            </a>
-            <a class="btn btn-warning" role="button" href="<?php echo e(url('wordlist/olist/'.$initial.'?type=olist_desc')); ?>">
-              Olist Desc
+            <a class="btn btn-info" role="button" href="<?php echo e(url('wordlist/familiar/'.$hardLevel.'?type=list_desc')); ?>">
+              List Desc
             </a>
             <div style="float:right"><?php echo e($wordlists->appends(['type'=>$type])->links()); ?></div>
             <br/>
@@ -86,7 +79,6 @@
                       <tr>
                         <th>#</th>
                         <th>word</th>
-                        <th>Hard</th>
                         <th>List</th>
                         <th>Page</th>
                         <!-- <th>contents</th> -->
@@ -100,7 +92,7 @@
                         <td>
                           <?php if($wordlist->familiar>5): ?>
                             <a class="btn btn-outline-secondary btn-sm"
-                             style="font-weight:bold;color:<?php echo e($colors[$wordlist->familiar]); ?>"
+                             style="color:<?php echo e($colors[$wordlist->familiar]); ?>"
                              href="<?php echo e(url('wordlist/'.$wordlist->id)); ?>">
                           <?php else: ?>
                             <a style="color:<?php echo e($colors[$wordlist->familiar]); ?>" href="<?php echo e(url('wordlist/'.$wordlist->id)); ?>">
@@ -111,7 +103,6 @@
                           </a>
 
                         </td>
-                        <td><?php echo e($wordlist->familiar); ?></td>
                         <td><?php echo e($wordlist->list_number); ?></td>
                         <td><?php echo e($wordlist->page_number); ?></td>
                         <!-- <td><?php echo $wordlist->contents; ?></td> -->

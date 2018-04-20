@@ -119,29 +119,40 @@ class WordlistController extends Controller
     /*有序版*/
     public function olist($initial,Request $request)
     {
-      $type = $request->has('type') ? $request->type : 'olist';
+      $type = $request->has('type') ? $request->type : 'alphabet';
       $currentPage = $request->has('page') ? $request->page : 1;
 
       switch($type){
-        case 'olist':
-          $wordlist = Wordlist::where('initial',$initial)->orderBy('word')
-             ->paginate($this->pageCount);
-          break;
+        case 'alphabet':
+            $wordlist = Wordlist::where('initial',$initial)
+              ->orderBy('word')
+              ->paginate($this->pageCount);
+             break;
+        case 'alphabet_desc':
+            $wordlist = Wordlist::where('initial',$initial)
+              ->orderBy('word','desc')
+              ->paginate($this->pageCount);
+            break;
         case 'hard':
-          $wordlist = Wordlist::where('initial',$initial)
-            ->orderBy('familiar','desc')
-            ->paginate($this->pageCount);
-          break;
+            $wordlist = Wordlist::where('initial',$initial)
+              ->orderBy('familiar','desc')
+              ->paginate($this->pageCount);
+            break;
         case 'hard_desc':  //familiar desc
             $wordlist = Wordlist::where('initial',$initial)
               ->orderBy('familiar')
               ->paginate($this->pageCount);
             break;
+        case 'olist':
+            $wordlist = Wordlist::where('initial',$initial)
+                ->orderBy('id')
+                 ->paginate($this->pageCount);
+            break;
         case 'olist_desc':
-          $wordlist = Wordlist::where('initial',$initial)
-            ->orderBy('word','desc')
-            ->paginate($this->pageCount);
-          break;
+            $wordlist = Wordlist::where('initial',$initial)
+              ->orderBy('id','desc')
+              ->paginate($this->pageCount);
+            break;
       }
 
       return view('wordlist/olist',['initial'=>$initial,'type'=>$type,
@@ -157,20 +168,10 @@ class WordlistController extends Controller
       /*难度版*/
       public function familiar($hardLevel,Request $request)
       {
-        $type = $request->has('type') ? $request->type : 'hard';
+        $type = $request->has('type') ? $request->type : 'alphabet';
         $currentPage = $request->has('page') ? $request->page : 1;
 
         switch($type){
-          case 'hard':
-            $wordlist = Wordlist::where('familiar',$hardLevel)
-              ->orderBy('familiar','desc')
-              ->paginate($this->pageCount);
-            break;
-          case 'hard_desc':
-            $wordlist = Wordlist::where('familiar',$hardLevel)
-              ->orderBy('familiar')
-              ->paginate($this->pageCount);
-            break;
           case 'alphabet':  //familiar desc
               $wordlist = Wordlist::where('familiar',$hardLevel)
                 ->orderBy('word')

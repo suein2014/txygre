@@ -35,12 +35,6 @@
       <div class="card">
         <div class="card-header">
             排序:
-            <a class="btn btn-primary" role="button" href="{{ url('wordlist/familiar/'.$hardLevel) }}">
-              Hard {{$hardLevel}}
-            </a>
-            <a class="btn btn-warning" role="button" href="{{ url('wordlist/familiar/'.$hardLevel.'?type=hard_desc') }}">
-              Hard Desc
-            </a>
             <a class="btn btn-danger" role="button" href="{{ url('wordlist/familiar/'.$hardLevel.'?type=alphabet') }}">
               Alphabet
             </a>

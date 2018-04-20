@@ -37,9 +37,6 @@
                   <div class="card">
                     <div class="card-header">
                         排序:
-                        <a class="btn btn-primary" role="button" href="{{ url('wordlist/card') }}">
-                          card
-                        </a>
                         <a class="btn btn-primary" role="button" href="{{ url('wordlist/list/'.$list_number) }}">
                           List {{$list_number}}
                         </a>
