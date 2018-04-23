@@ -32,6 +32,24 @@
     </div>
     <!-- {!! $wordlist->contents  !!} -->
     {{ $wordlist->contents  }}
+    <hr>
+    @foreach ($wordlist->phrase as $ph)
+      <p>
+        <i style="color:green;font-size:16px;font-weight:bold">{{$ph->en}}</i>
+        <br>
+        {{$ph->zh}}
+      </p>
+      <p></p>
+    @endforeach
+    <div></div>
+    <hr>
+    @foreach ($wordlist->example as $ex)
+      <p>
+        {{$ex->en}}<br>
+        <i style="color:cadetblue">{{$ex->zh}}</i>
+      </p>
+      <p></p>
+    @endforeach
 
 
 </div>

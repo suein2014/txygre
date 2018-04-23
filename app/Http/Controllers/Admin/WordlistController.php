@@ -15,11 +15,26 @@ class WordlistController extends Controller
       'list_number' =>'',
       'page_number' =>'',
       'contents' =>'',
+      'phrase' =>'',
+      'example' => '',
     ];
 
     public function index(Request $request){
       $currentPage = $request->has('page') ? $request->page : 1;
       $wordlists = Wordlist::orderBy('id','desc')->paginate(15);//paginate(10,['*'],'page',$currentPage);
+      $showLength = 20;
+      foreach($wordlists as $wordlist){
+        if(strlen($wordlist->example) > $showLength){
+           // list($wordlist->example,) = explode('</p>',$wordlist->example);
+           // $wordlist->example .= '</p>...';
+           $wordlist->example = substr($wordlist->example,0,$showLength).'...';
+        }
+        if(strlen($wordlist->phrase) > $showLength){
+           // list($wordlist->phrase,) = explode('</p>',$wordlist->phrase);
+           // $wordlist->phrase .= '</p>...';
+           $wordlist->phrase = substr($wordlist->phrase,0,$showLength).'...';
+         }
+    }
       return view('admin/wordlist/index',['currentPage'=>$currentPage])->withWordlists($wordlists);
     }
 
@@ -55,9 +70,18 @@ class WordlistController extends Controller
            $wordlist->page_number = $pageNumbber;
 
 
-           if(empty($wordlist->contents)){
+           if(empty($wordlist->contents) ||
+               empty($wordlist->phrase) ||
+               empty($wordlist->example) ){
              $wordModel = new Wordlist();
-             $wordlist->contents = $wordModel->getWordExplanationFromOnlineDict($wordlist->word);
+             list($contents,$phrase,$example) = $wordModel->getWordInfoFromOnlineDict($wordlist->word);
+
+             $phrase = str_replace('<p id="phrase">','<p id="phrase" style="color:green;font-size:16px;font-weight:bold">',$phrase);
+             $example = str_replace('<p class="exp">','<p style="color:cadetblue">',$example);
+
+             $wordlist->contents = $wordlist->contents ? $wordlist->contents : $contents;
+             $wordlist->phrase = $wordlist->phrase ? $wordlist->phrase : $phrase;
+             $wordlist->example = $wordlist->example ? $wordlist->example : $example;
            }
 
 
@@ -113,10 +137,19 @@ class WordlistController extends Controller
           $wordlist->$field = $request->get($field);
          }
 
-        if(empty($wordlist->contents)){
-          $wordModel = new Wordlist();
-          $wordlist->contents = $wordModel->getWordExplanationFromOnlineDict($wordlist->word);
-        }
+         if(empty($wordlist->contents) ||
+             empty($wordlist->phrase) ||
+             empty($wordlist->example) ){
+           $wordModel = new Wordlist();
+           list($contents,$phrase,$example) = $wordModel->getWordInfoFromOnlineDict($wordlist->word);
+
+           // $phrase = str_replace('<p id="phrase">','<p id="phrase" style="color:green;font-size:16px;font-weight:bold">',$phrase);
+           // $example = str_replace('<p class="exp">','<p style="color:cadetblue">',$example);
+
+           $wordlist->contents = $wordlist->contents ? $wordlist->contents : $contents;
+           $wordlist->phrase = $wordlist->phrase ? $wordlist->phrase : $phrase;
+           $wordlist->example = $wordlist->example ? $wordlist->example : $example;
+         }
 
         if($wordlist->save())
           return  redirect('admin/wordlists?page='.$currentPage)->withSuccess('保存成功!');

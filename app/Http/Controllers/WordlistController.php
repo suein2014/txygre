@@ -45,7 +45,10 @@ class WordlistController extends Controller
 
     public function test()
     {
-      return view('wordlist/test');
+      $wordModel = new Wordlist();
+      list($contents,$phrase,$example) = $wordModel->getWordInfoTest();
+      return view('wordlist/test',['phrase'=>$phrase,
+            'contents'=>$contents,'example'=>$example]);
     }
 
     public function card(Request $request){
@@ -227,9 +230,30 @@ class WordlistController extends Controller
       $currentPage = $request->has('page') ? $request->page : 1;
 
       $wordlist = Wordlist::findOrFail($id);
-      if(empty($wordlist->contents)){
-        $wordModel = new Wordlist();
-        $wordlist->contents = $wordModel->getWordExplanationFromOnlineDict($wordlist->word);
+      // if( empty($wordlist->contents) ||
+      //     empty($wordlist->phrase) ||
+      //     empty($wordlist->example) ) {
+      //
+      //     $wordModel = new Wordlist();
+      //     list($contents,$phrase,$example) = $wordModel->getWordInfoFromOnlineDict($wordlist->word);
+      //
+      //     $phrase = str_replace('<p id="phrase">','<p id="phrase" style="color:green;font-size:16px;font-weight:bold">',$phrase);
+      //     $example = str_replace('<p class="exp">','<p style="color:cadetblue">',$example);
+      //
+      //     $wordlist->contents = $wordlist->contents ? $wordlist->contents : $contents;
+      //     $wordlist->phrase = $wordlist->phrase ? $wordlist->phrase : $phrase;
+      //     $wordlist->example = $wordlist->example ? $wordlist->example : $example;
+      // }elseif($wordlist->phrase){
+      //   $wordlist->phrase = json_decode($wordlist->phrase);
+      //
+      // }
+
+      if($wordlist->phrase){
+        $wordlist->phrase = json_decode($wordlist->phrase);
+      }
+
+      if($wordlist->example){
+        $wordlist->example = json_decode($wordlist->example);
       }
 
       return view('wordlist/show',['type'=>$type,'colors'=>$this->colors,

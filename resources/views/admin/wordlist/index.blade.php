@@ -33,6 +33,8 @@
                             <th>list</th>
                             <th>page</th>
                             <th>contents</th>
+                            <th>phrase</th>
+                            <th >example</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -48,6 +50,10 @@
                                   <td>{{ $wordlist->list_number }}</td>
                                   <td>{{ $wordlist->page_number }}</td>
                                   <td>{!! $wordlist->contents !!}</td>
+                                  <td>{{ $wordlist->phrase }}</td>
+                                  <td>
+                                      {{ $wordlist->example }}
+                                  </td>
 
                               <!--<form action="{{ url('admin/wordlists/'.$wordlist->id) }}" method="POST" style="display: inline;">
                                   {{ method_field('DELETE') }}

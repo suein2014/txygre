@@ -33,6 +33,8 @@
                             <th>list</th>
                             <th>page</th>
                             <th>contents</th>
+                            <th>phrase</th>
+                            <th >example</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -48,6 +50,11 @@
                                   <td><?php echo e($wordlist->list_number); ?></td>
                                   <td><?php echo e($wordlist->page_number); ?></td>
                                   <td><?php echo $wordlist->contents; ?></td>
+                                  <td><?php echo e($wordlist->phrase); ?></td>
+                                  <td>
+                                      <?php echo e($wordlist->example); ?>
+
+                                  </td>
 
                               <!--<form action="<?php echo e(url('admin/wordlists/'.$wordlist->id)); ?>" method="POST" style="display: inline;">
                                   <?php echo e(method_field('DELETE')); ?>

@@ -22,7 +22,14 @@
 
 </head>
 <style type="text/css">
-
+  .twidth{
+    text-overflow: ellipsis; /* for IE */
+    -moz-text-overflow: ellipsis; /* for Firefox,mozilla */
+    overflow: hidden;
+    white-space: nowrap;
+    border: 1px solid;
+    text-align: left  
+}
 </style>
 
 <body>
@@ -73,6 +80,7 @@
                 </div>
             </div>
         </nav>
+
         <div class="container-fluid">
           <div class="row">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">

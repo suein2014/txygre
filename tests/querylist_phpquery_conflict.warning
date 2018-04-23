@@ -1,0 +1,36 @@
+Warning: Ambiguous class resolution,
+"DOMEvent" was found in both
+"$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and
+"/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php",
+the first will be used.
+
+
+Warning: Ambiguous class resolution, "DOMDocumentWrapper" was found in both
+"$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and
+"/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php",
+the first will be used.
+
+
+Warning: Ambiguous class resolution, "phpQueryEvents" was found in both
+"$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and
+"/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php",
+the first will be used.
+
+Warning: Ambiguous class resolution, "ICallbackNamed" was found in both
+"$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and
+"/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php",
+the first will be used.
+
+Warning: Ambiguous class resolution, "Callback" was found in both
+"$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and
+"/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
+
+Warning: Ambiguous class resolution, "CallbackBody" was found in both 
+"$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and "/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
+Warning: Ambiguous class resolution, "CallbackReturnReference" was found in both "$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and "/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
+Warning: Ambiguous class resolution, "CallbackReturnValue" was found in both "$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and "/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
+Warning: Ambiguous class resolution, "CallbackParameterToReference" was found in both "$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and "/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
+Warning: Ambiguous class resolution, "CallbackParam" was found in both "$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and "/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
+Warning: Ambiguous class resolution, "phpQueryObject" was found in both "$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and "/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
+Warning: Ambiguous class resolution, "phpQuery" was found in both "$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and "/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
+Warning: Ambiguous class resolution, "phpQueryPlugins" was found in both "$baseDir . '/app/Libs/phpQuery/phpQuery-onefile.php" and "/Users/xiaoyan/work/web/gre/vendor/jaeger/phpquery-single/phpQuery.php", the first will be used.
