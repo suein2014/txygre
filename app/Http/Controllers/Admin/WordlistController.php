@@ -24,16 +24,15 @@ class WordlistController extends Controller
       $wordlists = Wordlist::orderBy('id','desc')->paginate(15);//paginate(10,['*'],'page',$currentPage);
       $showLength = 20;
       foreach($wordlists as $wordlist){
+        // if(strlen($wordlist->contents) > $showLength){
+        //    $wordlist->contents = substr($wordlist->contents,0,10).'...';
+        // }
         if(strlen($wordlist->example) > $showLength){
-           // list($wordlist->example,) = explode('</p>',$wordlist->example);
-           // $wordlist->example .= '</p>...';
            $wordlist->example = substr($wordlist->example,0,$showLength).'...';
         }
         if(strlen($wordlist->phrase) > $showLength){
-           // list($wordlist->phrase,) = explode('</p>',$wordlist->phrase);
-           // $wordlist->phrase .= '</p>...';
            $wordlist->phrase = substr($wordlist->phrase,0,$showLength).'...';
-         }
+        }
     }
       return view('admin/wordlist/index',['currentPage'=>$currentPage])->withWordlists($wordlists);
     }

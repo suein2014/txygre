@@ -2,22 +2,20 @@
 
 @section('content')
 
-@foreach ($phrase as $ph)
-  <p>
-    <i style="color:green;font-size:16px;font-weight:bold">{{$ph->en}}</i>
-    <br>
-    {{$ph->zh}}
-  </p>
-  <p></p>
-@endforeach
-<hr>
-@foreach ($example as $ex)
-  <p>
-    {{$ex->en}}<br>
-    <i style="color:cadetblue">{{$ex->zh}}</i>
-  </p>
-  <p></p>
-@endforeach
+<div>
+  <span style="color: blue;">{{$contents->phonitic}}</span>
+  @if (count($contents->explane) > 1 )
+    <ol>
+      @foreach ($contents->explane as $ph)
+        <li>{{$ph}}</li>
+      @endforeach
+    </ol>
+  @else
+    @foreach ($contents->explane as $ph)
+      <div> {{$ph}} </div>
+    @endforeach
+  @endif
+</div>
 
 
 @endsection

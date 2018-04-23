@@ -12,22 +12,40 @@ class Wordlist extends Model
   //test
   public function getWordInfoTest(){
     $htmlContents = file_get_contents(dirname(dirname(__FILE__)).'/tests/test.html');
-    $contents = $this->getWordExplanation($htmlContents);
-    // $contents = $this->getWordPhonitic($htmlContents);
+    //$contents = $this->getWordExplanation($htmlContents);
+    $contents = $this->getWordContents($htmlContents);
+    // var_dump(json_decode($contents));exit;
     $phrase = $this->getWordPhrase($htmlContents);
     $example = $this->getWordExample($htmlContents);
-    return array($contents,json_decode($phrase),json_decode($example));
+    return array(json_decode($contents),json_decode($phrase),json_decode($example));
   }
 
   /*从Online Dict抓取单词的 含义、美式发音、词组和例句，保留截取的富文本*/
   public function getWordInfoFromOnlineDict($word){
     $url = "https://dict.eudic.net/dicts/en/".$word;
     $htmlContents = file_get_contents($url);
-    $contents = $this->getWordExplanation($htmlContents);
+    $contents = $this->getWordContents($htmlContents);
     $phrase = $this->getWordPhrase($htmlContents);
     $example = $this->getWordExample($htmlContents);
     return array($contents,$phrase,$example);
   }
+
+
+
+    /*从Online Dict抓取的内容里 截取出单词含义和美式发音*/
+    public function getWordContents($htmlContents){
+      $ql = QueryList::html($htmlContents) ;
+      $phonitic = $ql->find('span.Phonitic:last')->html();
+      $explane = $ql->find('ol')->children('li')->htmls();
+      if(! isset($explane[0])){
+        $explane = $ql->find('#ExpFCChild')->children('div.exp')->htmls();
+      }
+      $contents = array('phonitic'=>$phonitic,'explane'=>$explane);
+      return json_encode($contents);
+    }
+
+
+
 
   /*用QueryList库抽取html内容*/
   /*从Online Dict抓取的内容里 截取出单词的词组，保留富文本*/
@@ -39,7 +57,7 @@ class Wordlist extends Model
         //或 <p id="XX"><i>英语词组</i><br>中文翻译</p>
         if(strpos($phrase,'</div>')!==false){
           //此情况抛弃了只有p对的词组
-          $phrase = str_replace('</p>',$repTo,$phrase);
+          $phrase = str_replace('</p>','',$phrase);
           $phrase = explode('</div>',$phrase); //use this to sepearte total string
         }else{
           $phrase = explode('</p>',$phrase);
@@ -105,62 +123,6 @@ class Wordlist extends Model
     }
     return $return;
   }
-
-
-  /*抓取美式读音*/
-  public function getWordPhonitic($htmlContents){
-    $phonitic = QueryList::html($htmlContents)->find('div.exp')->htmls();
-    print_r($phonitic);
-  }
-
-
-  /*用最早写的办法，直接正则匹配*/
-  /*从Online Dict抓取的内容里 截取出单词含义和美式发音，保留富文本*/
-  public function getWordExplanation($htmlContents){
-
-    /*匹配词典解释*/
-    preg_match("/<ol>(.*?)<\/ol>/",$htmlContents,$explain);
-    if(!empty($explain[0])){
-      $explain = $explain[0];
-    }else{
-      preg_match_all("/ExpFCChild(.*?)<\/div><\/div>(.*?)<\/div>/",$htmlContents,$explain);
-      if(!empty($explain[2])){
-        $explain = $explain[2][0];
-      }else{
-        $explain = '';
-      }
-    }
-
-    $explain = !empty($explain) ? trim($explain) : '';
-    $explain = $this->execReplace($explain);
-
-
-    /*匹配读音*/
-    preg_match_all("/<span class=\"Phonitic\">(.*?)<\/span>/",$htmlContents,$phonitic);
-    ///*without html<span> */
-    //  if(!empty($phonitic[1][1])){
-    //   $phonitic = $phonitic[1][1];
-    // }elseif(!empty($phonitic[1][0])){
-    //   $phonitic = $phonitic[1][0];
-    // }
-
-    /*with <span>*/
-    if(!empty($phonitic[0][1])){
-      $phonitic = $phonitic[0][1];
-    }elseif(!empty($phonitic[0][0])){
-      $phonitic = $phonitic[0][0];
-    }else{
-      $phonitic = '';
-    }
-    $phonitic =!empty($phonitic) ?
-              preg_replace('/class="Phonitic"/', 'style="color:blue"', trim($phonitic)) : '';
-
-    $return = $phonitic.$explain;
-    return  $return ? $return : '查不到' ;
-  }
-
-
-
 
 
 

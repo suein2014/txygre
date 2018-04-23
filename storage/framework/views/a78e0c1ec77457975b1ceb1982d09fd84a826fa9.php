@@ -30,20 +30,35 @@
 
         </p>
     </div>
-    <!-- <?php echo $wordlist->contents; ?> -->
-    <?php echo e($wordlist->contents); ?>
 
+    <div>
+      <span style="color: blue;"><?php echo e($wordlist->contents->phonitic); ?></span>
+      <?php if(count($wordlist->contents->explane) > 1 ): ?>
+        <ol>
+          <?php $__currentLoopData = $wordlist->contents->explane; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <li><?php echo e($exp); ?></li>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </ol>
+      <?php else: ?>
+        <?php $__currentLoopData = $wordlist->contents->explane; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <div> <?php echo e($exp); ?> </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+      <?php endif; ?>
+    </div>
+
+    <?php if(is_array($wordlist->phrase)): ?>
     <hr>
-    <?php $__currentLoopData = $wordlist->phrase; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-      <p>
-        <i style="color:green;font-size:16px;font-weight:bold"><?php echo e($ph->en); ?></i>
-        <br>
-        <?php echo e($ph->zh); ?>
+      <?php $__currentLoopData = $wordlist->phrase; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <p>
+          <i style="color:green;font-size:16px;font-weight:bold"><?php echo e($ph->en); ?></i>
+          <br>
+          <?php echo e($ph->zh); ?>
 
-      </p>
-      <p></p>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    <div></div>
+        </p>
+        <p></p>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    <?php endif; ?>
+
     <hr>
     <?php $__currentLoopData = $wordlist->example; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ex): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <p>

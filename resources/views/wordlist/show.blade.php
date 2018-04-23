@@ -30,18 +30,34 @@
             page: {{ $wordlist->page_number }}
         </p>
     </div>
-    <!-- {!! $wordlist->contents  !!} -->
-    {{ $wordlist->contents  }}
+
+    <div>
+      <span style="color: blue;">{{$wordlist->contents->phonitic}}</span>
+      @if (count($wordlist->contents->explane) > 1 )
+        <ol>
+          @foreach ($wordlist->contents->explane as $exp)
+            <li>{{$exp}}</li>
+          @endforeach
+        </ol>
+      @else
+        @foreach ($wordlist->contents->explane as $exp)
+          <div> {{$exp}} </div>
+        @endforeach
+      @endif
+    </div>
+
+    @if (is_array($wordlist->phrase))
     <hr>
-    @foreach ($wordlist->phrase as $ph)
-      <p>
-        <i style="color:green;font-size:16px;font-weight:bold">{{$ph->en}}</i>
-        <br>
-        {{$ph->zh}}
-      </p>
-      <p></p>
-    @endforeach
-    <div></div>
+      @foreach ($wordlist->phrase as $ph)
+        <p>
+          <i style="color:green;font-size:16px;font-weight:bold">{{$ph->en}}</i>
+          <br>
+          {{$ph->zh}}
+        </p>
+        <p></p>
+      @endforeach
+    @endif
+
     <hr>
     @foreach ($wordlist->example as $ex)
       <p>

@@ -1,22 +1,19 @@
 <?php $__env->startSection('content'); ?>
 
-<?php $__currentLoopData = $phrase; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-  <p>
-    <i style="color:green;font-size:16px;font-weight:bold"><?php echo e($ph->en); ?></i>
-    <br>
-    <?php echo e($ph->zh); ?>
-
-  </p>
-  <p></p>
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-<hr>
-<?php $__currentLoopData = $example; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ex): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-  <p>
-    <?php echo e($ex->en); ?><br>
-    <i style="color:cadetblue"><?php echo e($ex->zh); ?></i>
-  </p>
-  <p></p>
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+<div>
+  <span style="color: blue;"><?php echo e($contents->phonitic); ?></span>
+  <?php if(count($contents->explane) > 1 ): ?>
+    <ol>
+      <?php $__currentLoopData = $contents->explane; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <li><?php echo e($ph); ?></li>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </ol>
+  <?php else: ?>
+    <?php $__currentLoopData = $contents->explane; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <div> <?php echo e($ph); ?> </div>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+  <?php endif; ?>
+</div>
 
 
 <?php $__env->stopSection(); ?>
