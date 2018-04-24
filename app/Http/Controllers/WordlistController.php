@@ -65,28 +65,27 @@ class WordlistController extends Controller
       //库支持直接rand取 LOL
       switch($type){
         case 'random':
-          $wordlist= Wordlist::orderByRaw('RAND()')->take($showCount)->get();
+          $wordlists= Wordlist::orderByRaw('RAND()')->take($showCount)->get();
           break;
         case 'alphabet':
-          $wordlist= Wordlist::where('initial',$initial)
+          $wordlists= Wordlist::where('initial',$initial)
             ->orderByRaw('RAND()')->take($showCount)->get();
           break;
         case 'hard':
-          $wordlist= Wordlist::where('familiar',$familiar)
+          $wordlists= Wordlist::where('familiar',$familiar)
             ->orderByRaw('RAND()')->take($showCount)->get();
           break;
         case 'list':
-          $wordlist= Wordlist::where('list_number',$listNumber)
+          $wordlists= Wordlist::where('list_number',$listNumber)
             ->orderByRaw('RAND()')->take($showCount)->get();
           break;
       }
-
 
       return view('wordlist/card',['showColumn'=>$showColumn,
         'initial'=>$initial,'list_number'=>$listNumber,
         'familiar'=>$familiar,'alphabet'=>$this->alphabet,
         'cardTypes'=>$cardType,'type'=>$type])
-        ->withWordlists($wordlist);
+        ->withWordlists($wordlists);
     }
 
 

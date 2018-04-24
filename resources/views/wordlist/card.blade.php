@@ -86,7 +86,7 @@
 
                     <!-- Modal -->
                     <div class="modal fade" id="{{$wordlist->word}}" tabindex="-1" role="dialog" aria-labelledby="{{$wordlist->word}}label" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="{{$wordlist->word}}label" style="color:deeppink;">{{$wordlist->word}}</h4>
@@ -94,27 +94,65 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div class="modal-body" style="color:green">
-                            @if( empty($e = json_decode($wordlist->contents)) )
-                              {!! $wordlist->contents !!}
-                            @else
+                          <div class="modal-body">
 
-                            <div>
-                              <span style="color: blue;">{{$e->phonitic}}</span>
-                              @if (count($e->explain) > 1 )
-                                <ol>
-                                  @foreach ($e->explain as $exp)
-                                    <li>{{$exp}}</li>
-                                  @endforeach
-                                </ol>
+
+                              @if( empty($e = json_decode($wordlist->contents)) )
+                                <!-- 兼容脏数据 -->
+                                <div>{!! $wordlist->contents !!}</div>
                               @else
-                                @foreach ($e->explain as $exp)
-                                  <div> {{$exp}} </div>
-                                @endforeach
+                                <div>
+                                  <span style="color: blue;">{{$e->phonitic}}</span>
+                                  @if (count($e->explain) > 1 )
+                                    <ol>
+                                      @foreach ($e->explain as $exp)
+                                        <li>{{$exp}}</li>
+                                      @endforeach
+                                    </ol>
+                                  @else
+                                    @foreach ($e->explain as $exp)
+                                      <div> {{$exp}} </div>
+                                    @endforeach
+                                  @endif
+                                </div>
                               @endif
-                            </div>
+                              <hr>
 
-                            @endif
+                              @if( empty($f = json_decode($wordlist->phrase)))
+                                <div>{!! $wordlist->phrase !!}</div>
+                              @elseif(is_array($f))
+                                <div>
+                                  @foreach ($f as $lid=> $ph)
+                                      @if ($lid<3)
+                                        <p>
+                                          <i style="color:green;font-size:16px;font-weight:bold">{{$ph->en}}</i>
+                                          <br>
+                                          {{$ph->zh}}
+                                        </p>
+                                        <p></p>
+                                      @endif
+                                  @endforeach
+                                </div>
+
+                              @endif
+                              <hr>
+
+
+                              @if( empty($g = json_decode($wordlist->example)))
+                                <div>{!! $wordlist->example !!}</div>
+                              @elseif(is_array($g))
+                                <div>
+                                  @foreach ($g as $lid=> $ph)
+                                      @if ($lid<3)
+                                      <p>
+                                        {{$ph->en}}<br>
+                                        <i style="color:cadetblue">{{$ph->zh}}</i>
+                                      </p>
+                                      @endif
+                                  @endforeach
+                                </div>
+                              @endif
+
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -88,7 +88,7 @@
 
                     <!-- Modal -->
                     <div class="modal fade" id="<?php echo e($wordlist->word); ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo e($wordlist->word); ?>label" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="<?php echo e($wordlist->word); ?>label" style="color:deeppink;"><?php echo e($wordlist->word); ?></h4>
@@ -96,28 +96,67 @@
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div class="modal-body" style="color:green">
-                            <?php if( empty($e = json_decode($wordlist->contents)) ): ?>
-                              <?php echo $wordlist->contents; ?>
+                          <div class="modal-body">
 
-                            <?php else: ?>
 
-                            <div>
-                              <span style="color: blue;"><?php echo e($e->phonitic); ?></span>
-                              <?php if(count($e->explain) > 1 ): ?>
-                                <ol>
-                                  <?php $__currentLoopData = $e->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <li><?php echo e($exp); ?></li>
-                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </ol>
+                              <?php if( empty($e = json_decode($wordlist->contents)) ): ?>
+                                <!-- 兼容脏数据 -->
+                                <div><?php echo $wordlist->contents; ?></div>
                               <?php else: ?>
-                                <?php $__currentLoopData = $e->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                  <div> <?php echo e($exp); ?> </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <div>
+                                  <span style="color: blue;"><?php echo e($e->phonitic); ?></span>
+                                  <?php if(count($e->explain) > 1 ): ?>
+                                    <ol>
+                                      <?php $__currentLoopData = $e->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li><?php echo e($exp); ?></li>
+                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </ol>
+                                  <?php else: ?>
+                                    <?php $__currentLoopData = $e->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <div> <?php echo e($exp); ?> </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                  <?php endif; ?>
+                                </div>
                               <?php endif; ?>
-                            </div>
+                              <!-- <br> -->
+                              <hr>
 
-                            <?php endif; ?>
+                              <?php if( empty($f = json_decode($wordlist->phrase))): ?>
+                                <div><?php echo $wordlist->phrase; ?></div>
+                              <?php elseif(is_array($f)): ?>
+                                <div>
+                                  <?php $__currentLoopData = $f; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lid=> $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <?php if($lid<3): ?>
+                                        <p>
+                                          <i style="color:green;font-size:16px;font-weight:bold"><?php echo e($ph->en); ?></i>
+                                          <br>
+                                          <?php echo e($ph->zh); ?>
+
+                                        </p>
+                                        <p></p>
+                                      <?php endif; ?>
+                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </div>
+
+                              <?php endif; ?>
+                              <hr>
+
+
+                              <?php if( empty($g = json_decode($wordlist->example))): ?>
+                                <div><?php echo $wordlist->example; ?></div>
+                              <?php elseif(is_array($g)): ?>
+                                <div>
+                                  <?php $__currentLoopData = $g; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lid=> $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <?php if($lid<3): ?>
+                                      <p>
+                                        <?php echo e($ph->en); ?><br>
+                                        <i style="color:cadetblue"><?php echo e($ph->zh); ?></i>
+                                      </p>
+                                      <?php endif; ?>
+                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </div>
+                              <?php endif; ?>
+
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
