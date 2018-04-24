@@ -49,10 +49,50 @@
                                   <td>{{ $wordlist->familiar }}</td>
                                   <td>{{ $wordlist->list_number }}</td>
                                   <td>{{ $wordlist->page_number }}</td>
-                                  <td>{!! $wordlist->contents !!}</td>
-                                  <td>{{ $wordlist->phrase }}</td>
+
                                   <td>
+                                    @if( is_string($wordlist->contents))
+                                      {!! $wordlist->contents !!}
+                                      @else
+                                        <div>
+                                          <span style="color: blue;">{{$wordlist->contents->phonitic}}</span>
+                                          @if (count($wordlist->contents->explain) > 1 )
+                                            <ol>
+                                              @foreach ($wordlist->contents->explain as $exp)
+                                                <li>{{$exp}}</li>
+                                              @endforeach
+                                            </ol>
+                                          @else
+                                            @foreach ($wordlist->contents->explain as $exp)
+                                              <div> {{$exp}} </div>
+                                            @endforeach
+                                          @endif
+                                        </div>
+                                    @endif
+
+                                  </td>
+
+                                  <td>
+                                    @if( is_string($wordlist->phrase))
+                                      {{ $wordlist->phrase }}
+                                    @else
+                                    <p>
+                                      <i style="color:green;font-size:16px;font-weight:bold">{{$wordlist->phrase->en}}</i>
+                                      <br>
+                                      {{$wordlist->phrase->zh}}...
+                                    </p>
+
+                                    @endif
+                                  </td>
+                                  <td>
+                                    @if( is_string($wordlist->example))
                                       {{ $wordlist->example }}
+                                    @else
+                                    <p>
+                                      {{$wordlist->example->en}}<br>
+                                      <i style="color:cadetblue">{{$wordlist->example->zh}}...</i>
+                                    </p>
+                                    @endif
                                   </td>
 
                               <!--<form action="{{ url('admin/wordlists/'.$wordlist->id) }}" method="POST" style="display: inline;">

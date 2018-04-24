@@ -17,24 +17,22 @@
                     <form action="<?php echo e(url('admin/wordlists/'.$wordlist->id).'?page='.$currentPage.'#'.$wordlist->id); ?>" method="POST">
                       <input name="_method" type="hidden" value="PUT">
                       <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+                      <button class="btn btn-lg btn-info">修改</button>
                         <br>
                         <div>单词:</div>
                         <input type="text" name="word" class="form-control"
                             required="required" value="<?php echo e($wordlist->word); ?>">
                         <div>内容:</div>
                         <textarea name="contents" rows="5" class="form-control">
-                          <?php echo e($wordlist->contents); ?>
 
                         </textarea>
                         <div>词组:</div>
                         <textarea name="phrase" rows="5" class="form-control">
-                          <?php echo e($wordlist->phrase); ?>
 
                         </textarea>
                         <div>例句:</div>
                         <textarea name="example" rows="5" class="form-control">
-                          <?php echo e($wordlist->example); ?>
-
+                          
                         </textarea>
                         <br>
                         <div>熟悉程度(10为最不熟悉):</div>
@@ -55,7 +53,7 @@
                         <input type="text" name="page_number" class="form-control"
                             required="required" value="<?php echo e($wordlist->page_number); ?>">
                         <br>
-                        <button class="btn btn-lg btn-info">修改</button>
+
                     </form>
 
                 </div>

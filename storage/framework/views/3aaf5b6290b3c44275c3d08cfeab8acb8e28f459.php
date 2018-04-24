@@ -97,8 +97,27 @@
                             </button>
                           </div>
                           <div class="modal-body" style="color:green">
-                            <?php echo $wordlist->contents; ?>
+                            <?php if( empty($e = json_decode($wordlist->contents)) ): ?>
+                              <?php echo $wordlist->contents; ?>
 
+                            <?php else: ?>
+
+                            <div>
+                              <span style="color: blue;"><?php echo e($e->phonitic); ?></span>
+                              <?php if(count($e->explain) > 1 ): ?>
+                                <ol>
+                                  <?php $__currentLoopData = $e->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e($exp); ?></li>
+                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </ol>
+                              <?php else: ?>
+                                <?php $__currentLoopData = $e->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                  <div> <?php echo e($exp); ?> </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                              <?php endif; ?>
+                            </div>
+
+                            <?php endif; ?>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

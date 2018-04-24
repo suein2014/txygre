@@ -24,14 +24,26 @@ class WordlistController extends Controller
       $wordlists = Wordlist::orderBy('id','desc')->paginate(15);//paginate(10,['*'],'page',$currentPage);
       $showLength = 20;
       foreach($wordlists as $wordlist){
-        // if(strlen($wordlist->contents) > $showLength){
-        //    $wordlist->contents = substr($wordlist->contents,0,10).'...';
-        // }
-        if(strlen($wordlist->example) > $showLength){
-           $wordlist->example = substr($wordlist->example,0,$showLength).'...';
-        }
-        if(strlen($wordlist->phrase) > $showLength){
+
+        $contents=json_decode($wordlist->contents);
+        $phrase=json_decode($wordlist->phrase);
+        $example=json_decode($wordlist->example);
+        $wordlist->contents =  $contents ? $contents : $wordlist->contents;
+        $wordlist->phrase   =  $phrase ? $phrase : $wordlist->phrase;
+        $wordlist->example =  $example ? $example : $wordlist->example;
+
+        if(is_array($wordlist->phrase)){
+          $wordlist->phrase = $wordlist->phrase[0];
+        }elseif(is_string($wordlist->phrase)){
+            //临时兼容脏数据，后续可去掉
            $wordlist->phrase = substr($wordlist->phrase,0,$showLength).'...';
+        }
+
+        if(is_array($wordlist->example)){
+          $wordlist->example = $wordlist->example[0];
+        }elseif(is_string($wordlist->example) ){
+            //临时兼容脏数据，后续可去掉
+           $wordlist->example = substr($wordlist->example,0,$showLength).'...';
         }
     }
       return view('admin/wordlist/index',['currentPage'=>$currentPage])->withWordlists($wordlists);

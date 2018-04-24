@@ -95,7 +95,26 @@
                             </button>
                           </div>
                           <div class="modal-body" style="color:green">
-                            {!! $wordlist->contents !!}
+                            @if( empty($e = json_decode($wordlist->contents)) )
+                              {!! $wordlist->contents !!}
+                            @else
+
+                            <div>
+                              <span style="color: blue;">{{$e->phonitic}}</span>
+                              @if (count($e->explain) > 1 )
+                                <ol>
+                                  @foreach ($e->explain as $exp)
+                                    <li>{{$exp}}</li>
+                                  @endforeach
+                                </ol>
+                              @else
+                                @foreach ($e->explain as $exp)
+                                  <div> {{$exp}} </div>
+                                @endforeach
+                              @endif
+                            </div>
+
+                            @endif
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

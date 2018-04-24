@@ -49,11 +49,53 @@
                                   <td><?php echo e($wordlist->familiar); ?></td>
                                   <td><?php echo e($wordlist->list_number); ?></td>
                                   <td><?php echo e($wordlist->page_number); ?></td>
-                                  <td><?php echo $wordlist->contents; ?></td>
-                                  <td><?php echo e($wordlist->phrase); ?></td>
+
                                   <td>
+                                    <?php if( is_string($wordlist->contents)): ?>
+                                      <?php echo $wordlist->contents; ?>
+
+                                      <?php else: ?>
+                                        <div>
+                                          <span style="color: blue;"><?php echo e($wordlist->contents->phonitic); ?></span>
+                                          <?php if(count($wordlist->contents->explain) > 1 ): ?>
+                                            <ol>
+                                              <?php $__currentLoopData = $wordlist->contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <li><?php echo e($exp); ?></li>
+                                              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </ol>
+                                          <?php else: ?>
+                                            <?php $__currentLoopData = $wordlist->contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                              <div> <?php echo e($exp); ?> </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                          <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                  </td>
+
+                                  <td>
+                                    <?php if( is_string($wordlist->phrase)): ?>
+                                      <?php echo e($wordlist->phrase); ?>
+
+                                    <?php else: ?>
+                                    <p>
+                                      <i style="color:green;font-size:16px;font-weight:bold"><?php echo e($wordlist->phrase->en); ?></i>
+                                      <br>
+                                      <?php echo e($wordlist->phrase->zh); ?>...
+                                    </p>
+
+                                    <?php endif; ?>
+                                  </td>
+                                  <td>
+                                    <?php if( is_string($wordlist->example)): ?>
                                       <?php echo e($wordlist->example); ?>
 
+                                    <?php else: ?>
+                                    <p>
+                                      <?php echo e($wordlist->example->en); ?><br>
+                                      <i style="color:cadetblue"><?php echo e($wordlist->example->zh); ?>...</i>
+                                    </p>
+                                    <?php endif; ?>
                                   </td>
 
                               <!--<form action="<?php echo e(url('admin/wordlists/'.$wordlist->id)); ?>" method="POST" style="display: inline;">
