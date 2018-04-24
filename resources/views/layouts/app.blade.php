@@ -28,7 +28,7 @@
     overflow: hidden;
     white-space: nowrap;
     border: 1px solid;
-    text-align: left  
+    text-align: left
 }
 </style>
 
@@ -39,6 +39,17 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'GRE Learning') }}
                 </a>
+
+
+                <nav class="navbar navbar-light bg-light">
+
+                  <form class="form-inline" action="{{url('wordlist/search')}}">
+                    <input class="form-control mr-sm-2" name="searchword" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+                </nav>
+
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

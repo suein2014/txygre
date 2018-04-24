@@ -2,14 +2,14 @@
 
 <div>
   <span style="color: blue;"><?php echo e($contents->phonitic); ?></span>
-  <?php if(count($contents->explane) > 1 ): ?>
+  <?php if(count($contents->explain) > 1 ): ?>
     <ol>
-      <?php $__currentLoopData = $contents->explane; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <?php $__currentLoopData = $contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <li><?php echo e($ph); ?></li>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </ol>
   <?php else: ?>
-    <?php $__currentLoopData = $contents->explane; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <?php $__currentLoopData = $contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <div> <?php echo e($ph); ?> </div>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   <?php endif; ?>

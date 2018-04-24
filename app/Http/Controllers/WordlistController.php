@@ -221,6 +221,48 @@ class WordlistController extends Controller
           ->withWordlists($wordlist);
     }
 
+    public function search(Request $request){
+      $searchWord = $request->has('searchword') ? $request->searchword : '';
+
+      $wordlist = Wordlist::where('word',$searchWord)->first();
+      if($wordlist->contents){
+        $wordlist->contents = json_decode($wordlist->contents);
+      }
+
+      if($wordlist->phrase){
+        $wordlist->phrase = json_decode($wordlist->phrase);
+      }
+      if($wordlist->example){
+        $wordlist->example = json_decode($wordlist->example);
+      }
+
+      //需要抓Online Dict数据，（目前支持搜索后跟随入库）
+      if( empty($wordlist->contents) || empty($wordlist->phrase) ||
+          empty($wordlist->example) ) {
+
+          $wordModel = new Wordlist();
+          list($contents,$phrase,$example) = $wordModel->getWordInfoFromOnlineDict($wordlist->word);
+
+          //for Update DB
+          $updateWordlist = Wordlist::find($wordlist->id);
+          $updateWordlist->contents = $contents;
+          $updateWordlist->phrase = $phrase;
+          $updateWordlist->example = $example;
+          $updateWordlist->save();
+
+          // for Showing in Search page
+          $wordlist->contents = json_decode($contents);
+          $wordlist->phrase = json_decode($phrase);
+          $wordlist->example = json_decode($example);
+      }
+
+      $type = 'list';
+      $currentPage = 1;
+      return view('wordlist/show',['type'=>$type,'colors'=>$this->colors,
+              'currentPage'=>$currentPage])
+              ->withWordlist($wordlist);
+
+    }
 
 
 
@@ -242,7 +284,7 @@ class WordlistController extends Controller
         $wordlist->example = json_decode($wordlist->example);
       }
 
-// var_dump($wordlist->phrase);exit;
+ // var_dump($wordlist->contents);exit;
       if( empty($wordlist->contents) ||
           empty($wordlist->phrase) ||
           empty($wordlist->example) ) {

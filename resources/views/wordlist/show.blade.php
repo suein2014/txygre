@@ -27,20 +27,20 @@
     </div>
     <div id="content" style="margin: 20px;">
         <p>
-            page: {{ $wordlist->page_number }}
+            page: {{ $wordlist->page_number }} |  id:{{ $wordlist->id }} 
         </p>
     </div>
 
     <div>
       <span style="color: blue;">{{$wordlist->contents->phonitic}}</span>
-      @if (count($wordlist->contents->explane) > 1 )
+      @if (count($wordlist->contents->explain) > 1 )
         <ol>
-          @foreach ($wordlist->contents->explane as $exp)
+          @foreach ($wordlist->contents->explain as $exp)
             <li>{{$exp}}</li>
           @endforeach
         </ol>
       @else
-        @foreach ($wordlist->contents->explane as $exp)
+        @foreach ($wordlist->contents->explain as $exp)
           <div> {{$exp}} </div>
         @endforeach
       @endif

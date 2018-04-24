@@ -26,21 +26,20 @@
     </div>
     <div id="content" style="margin: 20px;">
         <p>
-            page: <?php echo e($wordlist->page_number); ?>
-
+            page: <?php echo e($wordlist->page_number); ?> |  id:<?php echo e($wordlist->id); ?> 
         </p>
     </div>
 
     <div>
       <span style="color: blue;"><?php echo e($wordlist->contents->phonitic); ?></span>
-      <?php if(count($wordlist->contents->explane) > 1 ): ?>
+      <?php if(count($wordlist->contents->explain) > 1 ): ?>
         <ol>
-          <?php $__currentLoopData = $wordlist->contents->explane; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php $__currentLoopData = $wordlist->contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <li><?php echo e($exp); ?></li>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ol>
       <?php else: ?>
-        <?php $__currentLoopData = $wordlist->contents->explane; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php $__currentLoopData = $wordlist->contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <div> <?php echo e($exp); ?> </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       <?php endif; ?>

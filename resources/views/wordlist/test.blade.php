@@ -4,14 +4,14 @@
 
 <div>
   <span style="color: blue;">{{$contents->phonitic}}</span>
-  @if (count($contents->explane) > 1 )
+  @if (count($contents->explain) > 1 )
     <ol>
-      @foreach ($contents->explane as $ph)
+      @foreach ($contents->explain as $ph)
         <li>{{$ph}}</li>
       @endforeach
     </ol>
   @else
-    @foreach ($contents->explane as $ph)
+    @foreach ($contents->explain as $ph)
       <div> {{$ph}} </div>
     @endforeach
   @endif

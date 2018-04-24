@@ -141,10 +141,6 @@ class WordlistController extends Controller
              empty($wordlist->example) ){
            $wordModel = new Wordlist();
            list($contents,$phrase,$example) = $wordModel->getWordInfoFromOnlineDict($wordlist->word);
-
-           // $phrase = str_replace('<p id="phrase">','<p id="phrase" style="color:green;font-size:16px;font-weight:bold">',$phrase);
-           // $example = str_replace('<p class="exp">','<p style="color:cadetblue">',$example);
-
            $wordlist->contents = $wordlist->contents ? $wordlist->contents : $contents;
            $wordlist->phrase = $wordlist->phrase ? $wordlist->phrase : $phrase;
            $wordlist->example = $wordlist->example ? $wordlist->example : $example;

@@ -8,22 +8,26 @@ use QL\QueryList;
 
 class Wordlist extends Model
 {
-
-  //test
+  
+  //Test
   public function getWordInfoTest(){
     $htmlContents = file_get_contents(dirname(dirname(__FILE__)).'/tests/test.html');
-    //$contents = $this->getWordExplanation($htmlContents);
-    $contents = $this->getWordContents($htmlContents);
-    // var_dump(json_decode($contents));exit;
-    $phrase = $this->getWordPhrase($htmlContents);
-    $example = $this->getWordExample($htmlContents);
+    list($contents,$phrase,$example) = $this->getWordInfoByHtmlContents($htmlContents);
     return array(json_decode($contents),json_decode($phrase),json_decode($example));
   }
 
-  /*从Online Dict抓取单词的 含义、美式发音、词组和例句，保留截取的富文本*/
+
+
+  /*从Online Dict抓取单词的 含义、美式发音、词组和例句*/
   public function getWordInfoFromOnlineDict($word){
     $url = "https://dict.eudic.net/dicts/en/".$word;
     $htmlContents = file_get_contents($url);
+    return $this->getWordInfoByHtmlContents($htmlContents);
+
+  }
+
+  /*具体抽取方法 - 路由， 用QueryList库抽取html内容*/
+  public function getWordInfoByHtmlContents($htmlContents){
     $contents = $this->getWordContents($htmlContents);
     $phrase = $this->getWordPhrase($htmlContents);
     $example = $this->getWordExample($htmlContents);
@@ -31,24 +35,38 @@ class Wordlist extends Model
   }
 
 
-
-    /*从Online Dict抓取的内容里 截取出单词含义和美式发音*/
-    public function getWordContents($htmlContents){
-      $ql = QueryList::html($htmlContents) ;
-      $phonitic = $ql->find('span.Phonitic:last')->html();
-      $explane = $ql->find('ol')->children('li')->htmls();
-      if(! isset($explane[0])){
-        $explane = $ql->find('#ExpFCChild')->children('div.exp')->htmls();
+  /*具体抽取方法 - 1.抽取单词含义和美式发音*/
+  public function getWordContents($htmlContents){
+    $ql = QueryList::html($htmlContents) ;
+    /*匹配美式读音*/
+    $phonitic = $ql->find('span.Phonitic:last')->html();
+    /*匹配单词意思*/
+    $explain = $ql->find('ol')->children('li')->htmls();
+    $explain = array_map(function($e){return str_replace(array('<i>','</i>'),'',$e);},
+              $explain->toArray()); //去掉数组里多余的i标签
+    if(! isset($explain[0])){
+      //重新抽取
+      $explain = $ql->find('#ExpFCChild')->children('div.exp')->htmls();
+      if(! isset($explain[0])){
+          //正则匹配
+          preg_match_all("/ExpFCChild(.*?)<\/div><\/div>(.*?)<\/div/",$htmlContents,$explain);
+          if( !empty($explain[2]) ){
+            $explain = $explain[2][0]; //得到一个串
+            $explain = $this->execReplace($explain); //过滤无用标签
+            if( strpos($explain,'<div')!==false ){
+              //丢弃词义后面跟着的<div里的派生词
+              list($explain,) = explode('<div',$explain);
+            }
+          }
+          $explain = array($explain); //将正则匹配后处理得到的串包装为数组
       }
-      $contents = array('phonitic'=>$phonitic,'explane'=>$explane);
-      return json_encode($contents);
     }
+    $contents = array('phonitic'=>$phonitic,'explain'=>$explain);
+    return json_encode($contents);
+  }
 
 
-
-
-  /*用QueryList库抽取html内容*/
-  /*从Online Dict抓取的内容里 截取出单词的词组，保留富文本*/
+  /*具体抽取方法 - 2.抽取词组*/
   public function getWordPhrase($htmlContents){
     $phrase = QueryList::html($htmlContents)->find('#ExpSPECChild')->htmls();
     if(!empty($phrase[0])){
@@ -62,6 +80,7 @@ class Wordlist extends Model
         }else{
           $phrase = explode('</p>',$phrase);
         }
+
         $insertPhrase = $this->filterWordInfo($phrase,'phrase');
     }
     $insertPhrase = !empty($insertPhrase) ? $insertPhrase : '查不到';
@@ -70,8 +89,7 @@ class Wordlist extends Model
 
 
 
-  /*用QueryList库抽取html内容*/
-  /*从Online Dict抓取的内容里 截取出单词的词组，保留富文本*/
+  /*具体抽取方法 - 3.抽取例句*/
   public function getWordExample($htmlContents){
     $example = QueryList::html($htmlContents)->find('div.content')->htmls();
     $insertExample = $this->filterWordInfo($example,'example');
@@ -126,12 +144,12 @@ class Wordlist extends Model
 
 
 
-  /*替换无关的富文本*/
+  /*替换无关的html标签*/
   protected function execReplace($str,$type='contents',$replaceTo = ''){
     $toReplaceArr =array(
       'contents'=> array(
             '<script>initThumbnail()</script>',
-            '<script>initThumbnail()</script><div class="exp">',
+            '<script>initThumbnail()</script><div class="exp">','<i>','</i>',
           ),
       'phrase'=>array(
             '<!--word-thumbnail-image-->',
