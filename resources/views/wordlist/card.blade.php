@@ -86,7 +86,8 @@
 
                     <!-- Modal -->
                     <div class="modal fade" id="{{$wordlist->word}}" tabindex="-1" role="dialog" aria-labelledby="{{$wordlist->word}}label" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
+                      <!-- <div class="modal-dialog modal-lg" role="document"> -->
+                      <div class="modal-dialog" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h4 class="modal-title" id="{{$wordlist->word}}label" style="color:deeppink;">{{$wordlist->word}}</h4>
@@ -95,11 +96,9 @@
                             </button>
                           </div>
                           <div class="modal-body">
-
-
                               @if( empty($e = json_decode($wordlist->contents)) )
                                 <!-- 兼容脏数据 -->
-                                <div>{!! $wordlist->contents !!}</div>
+                                <div>{{ $wordlist->contents }}</div>
                               @else
                                 <div>
                                   <span style="color: blue;">{{$e->phonitic}}</span>
@@ -117,42 +116,49 @@
                                 </div>
                               @endif
                               <hr>
+                              <div class="table-responsive">
+                                <table class="table" >
+                                  <thead>
+                                    <tr>
+                                      <th scope="col"> 词组</th>
+                                      <th scope="col"> 例句</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr>
+                                    <td class="border-right">
+                                        @if( empty($f = json_decode($wordlist->phrase)))
+                                          {{ $wordlist->phrase }}
+                                        @elseif(is_array($f))
+                                            @foreach ($f as $lid=> $ph)
+                                                @if ($lid<3)
+                                                  <p>
+                                                    <i style="color:green;font-size:16px;font-weight:bold">{{$ph->en}}</i>
+                                                    <br>
+                                                    {{$ph->zh}}
+                                                  </p>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </td>
 
-                              @if( empty($f = json_decode($wordlist->phrase)))
-                                <div>{!! $wordlist->phrase !!}</div>
-                              @elseif(is_array($f))
-                                <div>
-                                  @foreach ($f as $lid=> $ph)
-                                      @if ($lid<3)
-                                        <p>
-                                          <i style="color:green;font-size:16px;font-weight:bold">{{$ph->en}}</i>
-                                          <br>
-                                          {{$ph->zh}}
-                                        </p>
-                                        <p></p>
-                                      @endif
-                                  @endforeach
-                                </div>
-
-                              @endif
-                              <hr>
-
-
-                              @if( empty($g = json_decode($wordlist->example)))
-                                <div>{!! $wordlist->example !!}</div>
-                              @elseif(is_array($g))
-                                <div>
-                                  @foreach ($g as $lid=> $ph)
-                                      @if ($lid<3)
-                                      <p>
-                                        {{$ph->en}}<br>
-                                        <i style="color:cadetblue">{{$ph->zh}}</i>
-                                      </p>
-                                      @endif
-                                  @endforeach
-                                </div>
-                              @endif
-
+                                    <td>
+                                        @if( empty($g = json_decode($wordlist->example)))
+                                          {{ $wordlist->example }}
+                                        @elseif(is_array($g))
+                                            @foreach ($g as $lid=> $ph)
+                                                @if ($lid<3)
+                                                <p>
+                                                  {{$ph->en}}<br>
+                                                  <i style="color:cadetblue">{{$ph->zh}}</i>
+                                                </p>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -161,12 +167,17 @@
                         </div>
                       </div>
                     </div>
+                  </div>
                 </td>
             @endforeach
             </tr>
           </table>
         </div>
       </div>
-      </td>
+    </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
 
 @endsection

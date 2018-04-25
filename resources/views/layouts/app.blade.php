@@ -21,16 +21,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
-<style type="text/css">
-  .twidth{
-    text-overflow: ellipsis; /* for IE */
-    -moz-text-overflow: ellipsis; /* for Firefox,mozilla */
-    overflow: hidden;
-    white-space: nowrap;
-    border: 1px solid;
-    text-align: left
-}
-</style>
 
 <body>
     <div id="app">

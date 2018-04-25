@@ -53,7 +53,7 @@
                                   <td>
                                     @if( is_string($wordlist->contents))
                                       {!! $wordlist->contents !!}
-                                      @else
+                                    @else
                                         <div>
                                           <span style="color: blue;">{{$wordlist->contents->phonitic}}</span>
                                           @if (count($wordlist->contents->explain) > 1 )
@@ -74,7 +74,7 @@
 
                                   <td>
                                     @if( is_string($wordlist->phrase))
-                                      {{ $wordlist->phrase }}
+                                      <span style="color:grey"> {{ $wordlist->phrase }}</span>
                                     @else
                                     <p>
                                       <i style="color:green;font-size:16px;font-weight:bold">{{$wordlist->phrase->en}}</i>
@@ -86,7 +86,7 @@
                                   </td>
                                   <td>
                                     @if( is_string($wordlist->example))
-                                      {{ $wordlist->example }}
+                                      <span style="color:grey"> {{ $wordlist->example }}</span>
                                     @else
                                     <p>
                                       {{$wordlist->example->en}}<br>

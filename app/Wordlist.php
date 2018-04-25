@@ -8,7 +8,7 @@ use QL\QueryList;
 
 class Wordlist extends Model
 {
-  
+
   //Test
   public function getWordInfoTest(){
     $htmlContents = file_get_contents(dirname(dirname(__FILE__)).'/tests/test.html');
@@ -49,7 +49,7 @@ class Wordlist extends Model
       $explain = $ql->find('#ExpFCChild')->children('div.exp')->htmls();
       if(! isset($explain[0])){
           //正则匹配
-          preg_match_all("/ExpFCChild(.*?)<\/div><\/div>(.*?)<\/div/",$htmlContents,$explain);
+          preg_match_all("/ExpFCChild(.*)<\/div><\/div>(.*?)<\/div/",$htmlContents,$explain);
           if( !empty($explain[2]) ){
             $explain = $explain[2][0]; //得到一个串
             $explain = $this->execReplace($explain); //过滤无用标签
@@ -58,6 +58,7 @@ class Wordlist extends Model
               list($explain,) = explode('<div',$explain);
             }
           }
+          $explain = is_array($explain) || empty($explain) ? '查不到': $explain ;
           $explain = array($explain); //将正则匹配后处理得到的串包装为数组
       }
     }
