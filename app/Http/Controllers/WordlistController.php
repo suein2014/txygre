@@ -69,22 +69,18 @@ class WordlistController extends Controller
       $showColumn=4;
 
       //库支持直接rand取 LOL
-      switch($type){
-        case 'random':
-          $wordlists= Wordlist::orderByRaw('RAND()')->take($showCount)->get();
-          break;
-        case 'alphabet':
-          $wordlists= Wordlist::where('initial',$initial)
-            ->orderByRaw('RAND()')->take($showCount)->get();
-          break;
-        case 'hard':
-          $wordlists= Wordlist::where('familiar',$familiar)
-            ->orderByRaw('RAND()')->take($showCount)->get();
-          break;
-        case 'list':
-          $wordlists= Wordlist::where('list_number',$listNumber)
-            ->orderByRaw('RAND()')->take($showCount)->get();
-          break;
+      if($type=="random"){
+        $wordlists= Wordlist::orderByRaw('RAND()')->take($showCount)->get();
+      }else{
+        switch($type){
+          case 'alphabet':
+            $wordlists= Wordlist::where('initial',$initial); break;
+          case 'hard':
+            $wordlists= Wordlist::where('familiar',$familiar); break;
+          case 'list':
+            $wordlists= Wordlist::where('list_number',$listNumber); break;
+        }
+        $wordlists= $wordlists->orderByRaw('RAND()')->take($showCount)->get();
       }
 
       //遍历数组，闭包实现解码json_encode部分，如果是字符串解码为空则保留原串
@@ -117,10 +113,10 @@ class WordlistController extends Controller
       $wordlist = Wordlist::where('list_number',$listNumber);
       switch($type){
         case 'list_desc':
-            $wordlist = $wordlist->orderBy('id','desc'); break;
-        case 'hard':
+          $wordlist = $wordlist->orderBy('id','desc'); break;
+        case 'hard': //familiar desc
           $wordlist = $wordlist->orderBy('familiar','desc'); break;
-        case 'hard_desc':  //familiar desc
+        case 'hard_desc':
           $wordlist = $wordlist->orderBy('familiar'); break;
         case 'alphabet':
           $wordlist = $wordlist->orderBy('word'); break;
