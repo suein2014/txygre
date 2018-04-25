@@ -23,23 +23,11 @@ class WordlistController extends Controller
         $currentPage = $request->has('page') ? $request->page : 1;
         $wordlists = Wordlist::orderBy('id','desc')->paginate(15);//paginate(10,['*'],'page',$currentPage);
         $showLength = 20;
+        $wordModel = new Wordlist();
         foreach($wordlists as $wordlist){
-          $contents=json_decode($wordlist->contents);
-          $phrase=json_decode($wordlist->phrase);
-          $example=json_decode($wordlist->example);
-          //如果json_decode后为空，则不decode
-          $wordlist->contents =  $contents ? $contents : $wordlist->contents;
-          $wordlist->phrase   =  $phrase ? $phrase : $wordlist->phrase;
-          $wordlist->example =  $example ? $example : $wordlist->example;
-
-          foreach(array('phrase','example') as $key){
-              // if(is_array($wordlist->$key)){
-              //   $wordlist->$key = array_slice($wordlist->$key,0,1); //只展示一个
-              // }else
-              if(is_string($wordlist->$key)){
-                $wordlist->$key = substr($wordlist->$key,0,$showLength); //"查不到"
-              }
-          }
+          list($wordlist->contents,$wordlist->phrase,$wordlist->example)
+            = $wordModel->getJsonDecodeData(
+              array($wordlist->contents,$wordlist->phrase,$wordlist->example));
         }
         return view('admin/wordlist/index',['currentPage'=>$currentPage])->withWordlists($wordlists);
     }
@@ -81,10 +69,6 @@ class WordlistController extends Controller
                empty($wordlist->example) ){
              $wordModel = new Wordlist();
              list($contents,$phrase,$example) = $wordModel->getWordInfoFromOnlineDict($wordlist->word);
-
-             $phrase = str_replace('<p id="phrase">','<p id="phrase" style="color:green;font-size:16px;font-weight:bold">',$phrase);
-             $example = str_replace('<p class="exp">','<p style="color:cadetblue">',$example);
-
              $wordlist->contents = $wordlist->contents ? $wordlist->contents : $contents;
              $wordlist->phrase = $wordlist->phrase ? $wordlist->phrase : $phrase;
              $wordlist->example = $wordlist->example ? $wordlist->example : $example;
