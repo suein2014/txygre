@@ -22,6 +22,9 @@ class WordlistController extends Controller
 
     protected $pageCount=50;
 
+    protected $wordModel;
+
+
 
     /**
      * Create a new controller instance.
@@ -31,6 +34,7 @@ class WordlistController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->wordModel = new Wordlist();
     }
 
     /**
@@ -45,8 +49,7 @@ class WordlistController extends Controller
 
     public function test()
     {
-      $wordModel = new Wordlist();
-      list($contents,$phrase,$example) = $wordModel->getWordInfoTest();
+      list($contents,$phrase,$example) = $this->wordModel->getWordInfoTest();
       return view('wordlist/test',['phrase'=>$phrase,
             'contents'=>$contents,'example'=>$example]);
     }
@@ -80,6 +83,14 @@ class WordlistController extends Controller
             ->orderByRaw('RAND()')->take($showCount)->get();
           break;
       }
+
+      //遍历数组，解码json_encode部分，如果是字符串解码为空则保留原串
+      $wordlists = array_map(function($e){
+        $e = (object)$e ;
+        list($e->contents,$e->phrase,$e->example)
+          = $this->wordModel->getJsonDecodeData(array($e->contents,$e->phrase,$e->example));
+        return $e;
+      },$wordlists->toArray());
 
       return view('wordlist/card',['showColumn'=>$showColumn,
         'initial'=>$initial,'list_number'=>$listNumber,

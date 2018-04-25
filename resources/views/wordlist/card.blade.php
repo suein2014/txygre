@@ -84,90 +84,9 @@
                     </button>
                     <button type="button" class="btn btn-light" onclick="hideWord({{$wordlist->id}})" >隐藏</button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="{{$wordlist->word}}" tabindex="-1" role="dialog" aria-labelledby="{{$wordlist->word}}label" aria-hidden="true">
-                      <!-- <div class="modal-dialog modal-lg" role="document"> -->
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title" id="{{$wordlist->word}}label" style="color:deeppink;">{{$wordlist->word}}</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                              @if( empty($e = json_decode($wordlist->contents)) )
-                                <!-- 兼容脏数据 -->
-                                <div>{{ $wordlist->contents }}</div>
-                              @else
-                                <div>
-                                  <span style="color: blue;">{{$e->phonitic}}</span>
-                                  @if (count($e->explain) > 1 )
-                                    <ol>
-                                      @foreach ($e->explain as $exp)
-                                        <li>{{$exp}}</li>
-                                      @endforeach
-                                    </ol>
-                                  @else
-                                    @foreach ($e->explain as $exp)
-                                      <div> {{$exp}} </div>
-                                    @endforeach
-                                  @endif
-                                </div>
-                              @endif
-                              <hr>
-                              <div class="table-responsive">
-                                <table class="table" >
-                                  <thead>
-                                    <tr>
-                                      <th scope="col"> 词组</th>
-                                      <th scope="col"> 例句</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                  <tr>
-                                    <td class="border-right">
-                                        @if( empty($f = json_decode($wordlist->phrase)))
-                                          {{ $wordlist->phrase }}
-                                        @elseif(is_array($f))
-                                            @foreach ($f as $lid=> $ph)
-                                                @if ($lid<3)
-                                                  <p>
-                                                    <i style="color:green;font-size:16px;font-weight:bold">{{$ph->en}}</i>
-                                                    <br>
-                                                    {{$ph->zh}}
-                                                  </p>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    </td>
-
-                                    <td>
-                                        @if( empty($g = json_decode($wordlist->example)))
-                                          {{ $wordlist->example }}
-                                        @elseif(is_array($g))
-                                            @foreach ($g as $lid=> $ph)
-                                                @if ($lid<3)
-                                                <p>
-                                                  {{$ph->en}}<br>
-                                                  <i style="color:cadetblue">{{$ph->zh}}</i>
-                                                </p>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    <!-- Modal Begin -->
+                    @includeIf('wordlist.subview.word_modal')
+                    <!-- Modal End -->
                 </td>
             @endforeach
             </tr>

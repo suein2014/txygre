@@ -42,7 +42,14 @@
                               <tr>
                                   <td>{{ $wordlist->id}}</td>
                                   <td>{{ $wordlist->initial}}</td>
-                                  <td>{{ $wordlist->word }}</td>
+                                  <td>
+                                    <!-- <a target="_blank" style="color:black" href="{{url('wordlist/'.$wordlist->id)}}">{{ $wordlist->word }}</a> -->
+                                    <a  style="color:black" href="" data-toggle="modal" data-target="#{{$wordlist->word}}">
+                                      {{$wordlist->word}}
+                                    </a>
+                                    @includeIf('wordlist.subview.word_modal')
+
+                                  </td>
                                   <td>
                                     <a href="{{ url('admin/wordlists/'.$wordlist->id.'/edit?page='.$currentPage.'#'.$wordlist->id ) }}" class="btn btn-success btn-sm">编辑</a>
                                   </td>
@@ -51,28 +58,9 @@
                                   <td>{{ $wordlist->page_number }}</td>
 
                                   <td>
-                                    @if( is_string($wordlist->contents))
-                                      {!! $wordlist->contents !!}
-                                    @else
-                                        <div>
-                                          <span style="color: blue;">{{$wordlist->contents->phonitic}}</span>
-                                          @if (count($wordlist->contents->explain) > 1 )
-                                            <ol>
-                                              @foreach ($wordlist->contents->explain as $exp)
-                                                <li>{{$exp}}</li>
-                                              @endforeach
-                                            </ol>
-                                          @else
-                                            @foreach ($wordlist->contents->explain as $exp)
-                                              <div> {{$exp}} </div>
-                                            @endforeach
-                                          @endif
-                                        </div>
-                                    @endif
-
+                                    @includeIf('wordlist.subview.show_contents')
                                   </td>
 
-                                  <td>
                                     @if( is_string($wordlist->phrase))
                                       <span style="color:grey"> {{ $wordlist->phrase }}</span>
                                     @else
@@ -92,7 +80,6 @@
                                       {{$wordlist->example->en}}<br>
                                       <i style="color:cadetblue">{{$wordlist->example->zh}}...</i>
                                     </p>
-                                    @endif
                                   </td>
 
                               <!--<form action="{{ url('admin/wordlists/'.$wordlist->id) }}" method="POST" style="display: inline;">

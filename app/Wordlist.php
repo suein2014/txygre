@@ -169,5 +169,16 @@ class Wordlist extends Model
     return $str;
   }
 
-
+  public function getJsonDecodeData($params){
+    if(is_array($params)){
+      foreach($params as $param){
+        $d = json_decode($param);
+        $data[] = $d ? $d : $param ;
+      }
+    }else{
+      $d = json_decode($params);
+      $data = $d ? $d : $param ;
+    }
+    return $data;
+  }
 }

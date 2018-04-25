@@ -20,33 +20,28 @@ class WordlistController extends Controller
     ];
 
     public function index(Request $request){
-      $currentPage = $request->has('page') ? $request->page : 1;
-      $wordlists = Wordlist::orderBy('id','desc')->paginate(15);//paginate(10,['*'],'page',$currentPage);
-      $showLength = 20;
-      foreach($wordlists as $wordlist){
+        $currentPage = $request->has('page') ? $request->page : 1;
+        $wordlists = Wordlist::orderBy('id','desc')->paginate(15);//paginate(10,['*'],'page',$currentPage);
+        $showLength = 20;
+        foreach($wordlists as $wordlist){
+          $contents=json_decode($wordlist->contents);
+          $phrase=json_decode($wordlist->phrase);
+          $example=json_decode($wordlist->example);
+          //如果json_decode后为空，则不decode
+          $wordlist->contents =  $contents ? $contents : $wordlist->contents;
+          $wordlist->phrase   =  $phrase ? $phrase : $wordlist->phrase;
+          $wordlist->example =  $example ? $example : $wordlist->example;
 
-        $contents=json_decode($wordlist->contents);
-        $phrase=json_decode($wordlist->phrase);
-        $example=json_decode($wordlist->example);
-        $wordlist->contents =  $contents ? $contents : $wordlist->contents;
-        $wordlist->phrase   =  $phrase ? $phrase : $wordlist->phrase;
-        $wordlist->example =  $example ? $example : $wordlist->example;
-
-        if(is_array($wordlist->phrase)){
-          $wordlist->phrase = $wordlist->phrase[0];
-        }elseif(is_string($wordlist->phrase)){
-            //临时兼容脏数据，后续可去掉
-           $wordlist->phrase = substr($wordlist->phrase,0,$showLength).'...';
+          foreach(array('phrase','example') as $key){
+              // if(is_array($wordlist->$key)){
+              //   $wordlist->$key = array_slice($wordlist->$key,0,1); //只展示一个
+              // }else
+              if(is_string($wordlist->$key)){
+                $wordlist->$key = substr($wordlist->$key,0,$showLength); //"查不到"
+              }
+          }
         }
-
-        if(is_array($wordlist->example)){
-          $wordlist->example = $wordlist->example[0];
-        }elseif(is_string($wordlist->example) ){
-            //临时兼容脏数据，后续可去掉
-           $wordlist->example = substr($wordlist->example,0,$showLength).'...';
-        }
-    }
-      return view('admin/wordlist/index',['currentPage'=>$currentPage])->withWordlists($wordlists);
+        return view('admin/wordlist/index',['currentPage'=>$currentPage])->withWordlists($wordlists);
     }
 
     public function create(){
