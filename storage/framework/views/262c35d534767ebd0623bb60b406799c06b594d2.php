@@ -42,7 +42,15 @@
                               <tr>
                                   <td><?php echo e($wordlist->id); ?></td>
                                   <td><?php echo e($wordlist->initial); ?></td>
-                                  <td><?php echo e($wordlist->word); ?></td>
+                                  <td>
+                                    <!-- <a target="_blank" style="color:black" href="<?php echo e(url('wordlist/'.$wordlist->id)); ?>"><?php echo e($wordlist->word); ?></a> -->
+                                    <a  style="color:black" href="" data-toggle="modal" data-target="#<?php echo e($wordlist->word); ?>">
+                                      <?php echo e($wordlist->word); ?>
+
+                                    </a>
+                                    <?php if ($__env->exists('wordlist.subview.word_modal')) echo $__env->make('wordlist.subview.word_modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+                                  </td>
                                   <td>
                                     <a href="<?php echo e(url('admin/wordlists/'.$wordlist->id.'/edit?page='.$currentPage.'#'.$wordlist->id )); ?>" class="btn btn-success btn-sm">编辑</a>
                                   </td>
@@ -51,52 +59,11 @@
                                   <td><?php echo e($wordlist->page_number); ?></td>
 
                                   <td>
-                                    <?php if( is_string($wordlist->contents)): ?>
-                                      <?php echo $wordlist->contents; ?>
-
-                                      <?php else: ?>
-                                        <div>
-                                          <span style="color: blue;"><?php echo e($wordlist->contents->phonitic); ?></span>
-                                          <?php if(count($wordlist->contents->explain) > 1 ): ?>
-                                            <ol>
-                                              <?php $__currentLoopData = $wordlist->contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <li><?php echo e($exp); ?></li>
-                                              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            </ol>
-                                          <?php else: ?>
-                                            <?php $__currentLoopData = $wordlist->contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                              <div> <?php echo e($exp); ?> </div>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                          <?php endif; ?>
-                                        </div>
-                                    <?php endif; ?>
-
+                                    <?php if ($__env->exists('wordlist.subview.show_contents')) echo $__env->make('wordlist.subview.show_contents', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                   </td>
 
-                                  <td>
-                                    <?php if( is_string($wordlist->phrase)): ?>
-                                      <?php echo e($wordlist->phrase); ?>
-
-                                    <?php else: ?>
-                                    <p>
-                                      <i style="color:green;font-size:16px;font-weight:bold"><?php echo e($wordlist->phrase->en); ?></i>
-                                      <br>
-                                      <?php echo e($wordlist->phrase->zh); ?>...
-                                    </p>
-
-                                    <?php endif; ?>
-                                  </td>
-                                  <td>
-                                    <?php if( is_string($wordlist->example)): ?>
-                                      <?php echo e($wordlist->example); ?>
-
-                                    <?php else: ?>
-                                    <p>
-                                      <?php echo e($wordlist->example->en); ?><br>
-                                      <i style="color:cadetblue"><?php echo e($wordlist->example->zh); ?>...</i>
-                                    </p>
-                                    <?php endif; ?>
-                                  </td>
+                                  <td><?php if ($__env->exists('wordlist.subview.show_phrase',['showCount'=>'1'])) echo $__env->make('wordlist.subview.show_phrase',['showCount'=>'1'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?></td>
+                                  <td><?php if ($__env->exists('wordlist.subview.show_example', ['showCount'=>'1'])) echo $__env->make('wordlist.subview.show_example', ['showCount'=>'1'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?></td>
 
                               <!--<form action="<?php echo e(url('admin/wordlists/'.$wordlist->id)); ?>" method="POST" style="display: inline;">
                                   <?php echo e(method_field('DELETE')); ?>

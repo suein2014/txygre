@@ -26,46 +26,22 @@
     </div>
     <div id="content" style="margin: 20px;">
         <p>
-            page: <?php echo e($wordlist->page_number); ?> |  id:<?php echo e($wordlist->id); ?> 
+            page: <?php echo e($wordlist->page_number); ?> |  id:<?php echo e($wordlist->id); ?>
+
         </p>
     </div>
 
     <div>
-      <span style="color: blue;"><?php echo e($wordlist->contents->phonitic); ?></span>
-      <?php if(count($wordlist->contents->explain) > 1 ): ?>
-        <ol>
-          <?php $__currentLoopData = $wordlist->contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <li><?php echo e($exp); ?></li>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </ol>
-      <?php else: ?>
-        <?php $__currentLoopData = $wordlist->contents->explain; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <div> <?php echo e($exp); ?> </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-      <?php endif; ?>
+      <?php echo $__env->make('wordlist.subview.show_contents', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     </div>
 
-    <?php if(is_array($wordlist->phrase)): ?>
     <hr>
-      <?php $__currentLoopData = $wordlist->phrase; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ph): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <p>
-          <i style="color:green;font-size:16px;font-weight:bold"><?php echo e($ph->en); ?></i>
-          <br>
-          <?php echo e($ph->zh); ?>
-
-        </p>
-        <p></p>
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    <?php endif; ?>
+    <h5>词组</h5>
+    <?php echo $__env->make('wordlist.subview.show_phrase', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <hr>
-    <?php $__currentLoopData = $wordlist->example; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ex): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-      <p>
-        <?php echo e($ex->en); ?><br>
-        <i style="color:cadetblue"><?php echo e($ex->zh); ?></i>
-      </p>
-      <p></p>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    <h5>例句</h5>
+    <?php echo $__env->make('wordlist.subview.show_example', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 
 </div>

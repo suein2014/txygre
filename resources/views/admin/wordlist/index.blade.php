@@ -61,26 +61,8 @@
                                     @includeIf('wordlist.subview.show_contents')
                                   </td>
 
-                                    @if( is_string($wordlist->phrase))
-                                      <span style="color:grey"> {{ $wordlist->phrase }}</span>
-                                    @else
-                                    <p>
-                                      <i style="color:green;font-size:16px;font-weight:bold">{{$wordlist->phrase->en}}</i>
-                                      <br>
-                                      {{$wordlist->phrase->zh}}...
-                                    </p>
-
-                                    @endif
-                                  </td>
-                                  <td>
-                                    @if( is_string($wordlist->example))
-                                      <span style="color:grey"> {{ $wordlist->example }}</span>
-                                    @else
-                                    <p>
-                                      {{$wordlist->example->en}}<br>
-                                      <i style="color:cadetblue">{{$wordlist->example->zh}}...</i>
-                                    </p>
-                                  </td>
+                                  <td>@includeIf('wordlist.subview.show_phrase',['showCount'=>'1'])</td>
+                                  <td>@includeIf('wordlist.subview.show_example', ['showCount'=>'1'])</td>
 
                               <!--<form action="{{ url('admin/wordlists/'.$wordlist->id) }}" method="POST" style="display: inline;">
                                   {{ method_field('DELETE') }}
