@@ -21,8 +21,8 @@ class WordlistController extends Controller
 
     public function index(Request $request){
         $currentPage = $request->has('page') ? $request->page : 1;
-        $wordlists = Wordlist::orderBy('id','desc')->paginate(15);//paginate(10,['*'],'page',$currentPage);
-        $showLength = 20;
+        $pageCount = 15;
+        $wordlists = Wordlist::orderBy('id','desc')->paginate($pageCount);
         $wordModel = new Wordlist();
         foreach($wordlists as $wordlist){
           list($wordlist->contents,$wordlist->phrase,$wordlist->example)
@@ -32,15 +32,18 @@ class WordlistController extends Controller
         return view('admin/wordlist/index',['currentPage'=>$currentPage])->withWordlists($wordlists);
     }
 
+    /*增功能-对应页面*/
     public function create(){
       return view('admin/wordlist/create');
     }
 
+    /*编辑功能-对应页面*/
     public function edit($id,Request $request){
       $currentPage = $request->has('page') ? $request->page : 1;
       return view('admin/wordlist/edit',['currentPage'=>$currentPage])->withWordlist(Wordlist::findOrFail($id));
     }
 
+    /*增-入库*/
     public function store(Request $request)
     {
 
@@ -107,7 +110,7 @@ class WordlistController extends Controller
     }
 
 
-
+    /*编辑功能 - 入库*/
     public function update(Request $request,$id)
     {
         $currentPage = $request->has('page') ? $request->page : 1;

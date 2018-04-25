@@ -26,6 +26,7 @@ class WordlistController extends Controller
 
 
 
+
     /**
      * Create a new controller instance.
      *
@@ -35,6 +36,7 @@ class WordlistController extends Controller
     {
         $this->middleware('auth');
         $this->wordModel = new Wordlist();
+        // $this->type=Request::request('type') ? ;
     }
 
     /**
@@ -54,6 +56,7 @@ class WordlistController extends Controller
             'contents'=>$contents,'example'=>$example]);
     }
 
+    /*卡片页*/
     public function card(Request $request){
       $type = $request->has('type') ? $request->type : 'random';
       $initial = $request->has('initial') ? $request->initial : 'A';
@@ -84,7 +87,7 @@ class WordlistController extends Controller
           break;
       }
 
-      //遍历数组，解码json_encode部分，如果是字符串解码为空则保留原串
+      //遍历数组，闭包实现解码json_encode部分，如果是字符串解码为空则保留原串
       $wordlists = array_map(function($e){
         $e = (object)$e ;
         list($e->contents,$e->phrase,$e->example)
@@ -110,42 +113,27 @@ class WordlistController extends Controller
       $type = $request->has('type') ? $request->type : 'list';
       $currentPage = $request->has('page') ? $request->page : 1;
 
+      //default type 'list', will skip switch-clause
+      $wordlist = Wordlist::where('list_number',$listNumber);
       switch($type){
-        case 'list':
-          $wordlist = Wordlist::where('list_number',$listNumber)
-            ->paginate($this->pageCount);
-          break;
-          case 'list_desc':
-            $wordlist = Wordlist::where('list_number',$listNumber)
-              ->orderBy('id','desc')
-              ->paginate($this->pageCount);
-            break;
+        case 'list_desc':
+            $wordlist = $wordlist->orderBy('id','desc'); break;
         case 'hard':
-          $wordlist = Wordlist::where('list_number',$listNumber)
-            ->orderBy('familiar','desc')
-            ->paginate($this->pageCount);
-          break;
+          $wordlist = $wordlist->orderBy('familiar','desc'); break;
         case 'hard_desc':  //familiar desc
-            $wordlist = Wordlist::where('list_number',$listNumber)
-              ->orderBy('familiar')
-              ->paginate($this->pageCount);
-            break;
+          $wordlist = $wordlist->orderBy('familiar'); break;
         case 'alphabet':
-          $wordlist = Wordlist::where('list_number',$listNumber)
-            ->orderBy('word')
-            ->paginate($this->pageCount);
-          break;
+          $wordlist = $wordlist->orderBy('word'); break;
         case 'alphabet_desc':
-          $wordlist = Wordlist::where('list_number',$listNumber)
-            ->orderBy('word','desc')
-            ->paginate($this->pageCount);
-          break;
+          $wordlist = $wordlist->orderBy('word','desc'); break;
       }
+      $wordlist = $wordlist->paginate($this->pageCount);
 
       return view('wordlist/list',['list_number'=>$listNumber,'type'=>$type,
           'colors'=>$this->colors,'currentPage'=>$currentPage])
           ->withWordlists($wordlist);
     }
+
 
     /*有序版*/
     public function olist($initial,Request $request)
@@ -153,38 +141,22 @@ class WordlistController extends Controller
       $type = $request->has('type') ? $request->type : 'alphabet';
       $currentPage = $request->has('page') ? $request->page : 1;
 
+      $wl = Wordlist::where('initial',$initial);
       switch($type){
         case 'alphabet':
-            $wordlist = Wordlist::where('initial',$initial)
-              ->orderBy('word')
-              ->paginate($this->pageCount);
-             break;
+            $wordlist = $wl->orderBy('word'); break;
         case 'alphabet_desc':
-            $wordlist = Wordlist::where('initial',$initial)
-              ->orderBy('word','desc')
-              ->paginate($this->pageCount);
-            break;
+            $wordlist = $wl->orderBy('word','desc'); break;
         case 'hard':
-            $wordlist = Wordlist::where('initial',$initial)
-              ->orderBy('familiar','desc')
-              ->paginate($this->pageCount);
-            break;
+            $wordlist = $wl->orderBy('familiar','desc'); break;
         case 'hard_desc':  //familiar desc
-            $wordlist = Wordlist::where('initial',$initial)
-              ->orderBy('familiar')
-              ->paginate($this->pageCount);
-            break;
+            $wordlist = $wl->orderBy('familiar'); break;
         case 'olist':
-            $wordlist = Wordlist::where('initial',$initial)
-                ->orderBy('id')
-                 ->paginate($this->pageCount);
-            break;
+            $wordlist = $wl->orderBy('id'); break;
         case 'olist_desc':
-            $wordlist = Wordlist::where('initial',$initial)
-              ->orderBy('id','desc')
-              ->paginate($this->pageCount);
-            break;
+            $wordlist = $wl->orderBy('id','desc');  break;
       }
+      $wordlist = $wordlist->paginate($this->pageCount);
 
       return view('wordlist/olist',['initial'=>$initial,'type'=>$type,
           'colors'=>$this->colors,'currentPage'=>$currentPage,
@@ -197,61 +169,45 @@ class WordlistController extends Controller
 
 
       /*难度版*/
-      public function familiar($hardLevel,Request $request)
-      {
+    public function familiar($hardLevel,Request $request)
+    {
         $type = $request->has('type') ? $request->type : 'alphabet';
         $currentPage = $request->has('page') ? $request->page : 1;
 
+        $wl = Wordlist::where('familiar',$hardLevel);
         switch($type){
           case 'alphabet':  //familiar desc
-              $wordlist = Wordlist::where('familiar',$hardLevel)
-                ->orderBy('word')
-                ->paginate($this->pageCount);
-              break;
+            $wordlist = $wl->orderBy('word'); break;
           case 'alphabet_desc':
-            $wordlist = Wordlist::where('familiar',$hardLevel)
-              ->orderBy('word','desc')
-              ->paginate($this->pageCount);
-            break;
+            $wordlist = $wl->orderBy('word','desc'); break;
           case 'list':
-            $wordlist = Wordlist::where('familiar',$hardLevel)
-              ->orderBy('id')
-              ->paginate($this->pageCount);
-            break;
+            $wordlist = $wl->orderBy('id'); break;
           case 'list_desc':
-            $wordlist = Wordlist::where('familiar',$hardLevel)
-              ->orderBy('id','desc')
-              ->paginate($this->pageCount);
-            break;
+            $wordlist = $wl->orderBy('id','desc'); break;
         }
+        $wordlist = $wordlist->paginate($this->pageCount);
 
-      return view('wordlist/familiar',['hardLevel'=>$hardLevel,'type'=>$type,
+        return view('wordlist/familiar',['hardLevel'=>$hardLevel,'type'=>$type,
           'currentPage'=>$currentPage,'colors'=>$this->colors,
           'alphabet'=>$this->alphabet])
           ->withWordlists($wordlist);
     }
 
+    /*搜索框*/
     public function search(Request $request){
       $searchWord = $request->has('searchword') ? $request->searchword : '';
 
       $wordlist = Wordlist::where('word',$searchWord)->first();
-      if($wordlist->contents){
-        $wordlist->contents = json_decode($wordlist->contents);
-      }
 
-      if($wordlist->phrase){
-        $wordlist->phrase = json_decode($wordlist->phrase);
-      }
-      if($wordlist->example){
-        $wordlist->example = json_decode($wordlist->example);
-      }
+      list($wordlist->contents,$wordlist->phrase,$wordlist->example)
+        = $this->wordModel->getJsonDecodeData(
+          array($wordlist->contents,$wordlist->phrase,$wordlist->example));
 
       //需要抓Online Dict数据，（目前支持搜索后跟随入库）
       if( empty($wordlist->contents) || empty($wordlist->phrase) ||
           empty($wordlist->example) ) {
 
-          $wordModel = new Wordlist();
-          list($contents,$phrase,$example) = $wordModel->getWordInfoFromOnlineDict($wordlist->word);
+          list($contents,$phrase,$example) = $this->wordModel->getWordInfoFromOnlineDict($wordlist->word);
 
           //for Update DB
           $updateWordlist = Wordlist::find($wordlist->id);
@@ -275,7 +231,7 @@ class WordlistController extends Controller
     }
 
 
-
+    /*详情页*/
     public function show($id, Request $request)
     {
       $type = $request->has('type') ? $request->type : 'list';
@@ -283,24 +239,15 @@ class WordlistController extends Controller
 
       $wordlist = Wordlist::findOrFail($id);
 
-      if($wordlist->contents){
-        $wordlist->contents = json_decode($wordlist->contents);
-      }
+      list($wordlist->contents,$wordlist->phrase,$wordlist->example)
+        = $this->wordModel->getJsonDecodeData(
+          array($wordlist->contents,$wordlist->phrase,$wordlist->example));
 
-      if($wordlist->phrase){
-        $wordlist->phrase = json_decode($wordlist->phrase);
-      }
-      if($wordlist->example){
-        $wordlist->example = json_decode($wordlist->example);
-      }
-
- // var_dump($wordlist->contents);exit;
       if( empty($wordlist->contents) ||
           empty($wordlist->phrase) ||
           empty($wordlist->example) ) {
 
-          $wordModel = new Wordlist();
-          list($contents,$phrase,$example) = $wordModel->getWordInfoFromOnlineDict($wordlist->word);
+          list($contents,$phrase,$example) = $this->wordModel->getWordInfoFromOnlineDict($wordlist->word);
 
           $wordlist->contents = $wordlist->contents ? $wordlist->contents : json_decode($contents);
           $wordlist->phrase = $wordlist->phrase ? $wordlist->phrase : json_decode($phrase);
