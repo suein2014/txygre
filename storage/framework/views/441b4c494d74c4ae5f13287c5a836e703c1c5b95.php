@@ -7,6 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <link rel="shortcut icon" href="<?php echo e(url('favicon.ico')); ?>">
 
     <title><?php echo e(config('app.name', 'GRE Learning')); ?></title>
 

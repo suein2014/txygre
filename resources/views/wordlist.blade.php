@@ -41,7 +41,7 @@
                 @for ($i=1; $i<51;$i++)
                 <li style="margin: 50px 0;">
                     <div class="list">
-                        <a href="{{ url('wordlist/list/'.$i) }}">
+                        <a class="wl" href="{{ url('wordlist/list/'.$i) }}">
                             <h4>Wordist  {{$i}}</h4>
                         </a>
                     </div>

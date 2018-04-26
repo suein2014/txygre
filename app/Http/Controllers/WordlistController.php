@@ -192,8 +192,13 @@ class WordlistController extends Controller
     /*搜索框*/
     public function search(Request $request){
       $searchWord = $request->has('searchword') ? $request->searchword : '';
+      $type = 'list';
+      $currentPage = 1;
 
       $wordlist = Wordlist::where('word',$searchWord)->first();
+      if (empty($wordlist)){
+        return view('wordlist/noresult',['type'=>$type]);
+      }
 
       list($wordlist->contents,$wordlist->phrase,$wordlist->example)
         = $this->wordModel->getJsonDecodeData(
@@ -218,8 +223,7 @@ class WordlistController extends Controller
           $wordlist->example = json_decode($example);
       }
 
-      $type = 'list';
-      $currentPage = 1;
+
       return view('wordlist/show',['type'=>$type,'colors'=>$this->colors,
               'currentPage'=>$currentPage])
               ->withWordlist($wordlist);

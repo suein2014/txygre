@@ -1,5 +1,21 @@
+
+/* @font-face {
+   font-family: sansation;
+   src: url(sansation_light.woff);
+} */
+
 body {
   font-size: .875rem;
+}
+
+
+th {
+  background-color: #E9F7EF;
+}
+
+div .card-header {
+  font-weight:bold;
+  background-color: #FCEF8D /* #F4EAA0 #E9F7EF;*/
 }
 
 .feather {
