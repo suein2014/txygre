@@ -1,5 +1,5 @@
+<!-- in  tr <- table <- div.card-body <- wordlist -->
 <td>
-
   @if ($wordlist->familiar>5)
     <i style="color:{{$colors[$wordlist->familiar]}}" class="fas fa-star"></i>
     <a class="btn btn-outline-secondary btn"
@@ -10,8 +10,8 @@
   @endif
   <b>{{ $wordlist->word }}</b>
   </a>
-  @if ( !empty($f=json_decode($wordlist->contents)) )
-    <p><span style="color: black;">{{$f->phonitic}}</span></p>
+  @if ( !empty($wordlist->contents=json_decode($wordlist->contents)) )
+    <p><span style="color: black;">{{$wordlist->contents->phonitic}}</span></p>
   @endif
 </td>
 
@@ -21,8 +21,8 @@
   <td style="background-color: #F5EEF8">
 @endif
 
-  @if(!empty($wordlist->phrase=json_decode($wordlist->phrase)))
-    @includeIf('wordlist.subview.show_phrase',['showCount'=>'2'])
+  @if(!empty($wordlist->contents))
+    @includeIf('wordlist.subview.show_contents',['list'=>true])
   @endif
   <hr>
   @if(!empty($wordlist->example=json_decode($wordlist->example)))

@@ -1,3 +1,4 @@
+<!-- in table <- div.card-body <- wordlist -->
 @if (session('status'))
     <div class="alert alert-success">
         {{ session('status') }}
@@ -9,8 +10,8 @@
       <thead>
         <tr>
           <!-- <th>#</th> -->
-          <th width="13%">word</th>
-          <th width="87%">contents</th>
+          <th width="15%">word</th>
+          <th width="85%">contents</th>
         </tr>
       </thead>
       <tbody>

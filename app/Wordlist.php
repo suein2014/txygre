@@ -9,6 +9,12 @@ use QL\QueryList;
 class Wordlist extends Model
 {
 
+  //Hard colors
+  const colors= [
+    1=>'darkgrey','burlywood','darkseagreen','cadetblue','darkturquoise',
+    'coral','darkgoldenrod','deeppink','darkorchid','red',
+  ];
+
   //Test
   public function getWordInfoTest(){
     $htmlContents = file_get_contents(dirname(dirname(__FILE__)).'/tests/test.html');

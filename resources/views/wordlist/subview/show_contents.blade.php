@@ -1,7 +1,9 @@
 @if( is_string($wordlist->contents))
   {{ $wordlist->contents }}
 @else
-    <span style="color: blue;">{{$wordlist->contents->phonitic}}</span>
+    @if (!isset($list))
+      <span style="color: blue;">{{$wordlist->contents->phonitic}}</span>
+    @endif
     @if (count($wordlist->contents->explain) > 1 )
       <ol>
         @foreach ($wordlist->contents->explain as $exp)

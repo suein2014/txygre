@@ -9,11 +9,6 @@ use App\Wordlist;
 class WordlistController extends Controller
 {
 
-    protected $colors= [
-      1=>'darkgrey','burlywood','darkseagreen','cadetblue','darkturquoise',
-      'coral','darkgoldenrod','deeppink','darkorchid','red',
-    ];
-
     protected $alphabet=[
       'A','B','C','D','E','F','G','H','I','J',
       'K','L','M','N','O','P','Q','R','S','T',
@@ -94,7 +89,7 @@ class WordlistController extends Controller
       return view('wordlist/card',['showColumn'=>$showColumn,
         'initial'=>$initial,'list_number'=>$listNumber,
         'familiar'=>$familiar,'alphabet'=>$this->alphabet,
-        'cardTypes'=>$cardType,'type'=>$type])
+        'cardTypes'=>$cardType,'type'=>$type,'colors'=>WordList::colors])
         ->withWordlists($wordlists);
     }
 
@@ -126,7 +121,7 @@ class WordlistController extends Controller
       $wordlists = $wordlists->paginate($this->pageCount);
 
       return view('wordlist/list',['list_number'=>$listNumber,'type'=>$type,
-          'colors'=>$this->colors,'currentPage'=>$currentPage])
+          'colors'=>WordList::colors,'currentPage'=>$currentPage])
           ->withWordlists($wordlists);
     }
 
@@ -155,7 +150,7 @@ class WordlistController extends Controller
       $wordlist = $wordlist->paginate($this->pageCount);
 
       return view('wordlist/olist',['initial'=>$initial,'type'=>$type,
-          'colors'=>$this->colors,'currentPage'=>$currentPage,
+          'colors'=>WordList::colors,'currentPage'=>$currentPage,
           'alphabet'=>$this->alphabet])
           ->withWordlists($wordlist);
 
@@ -184,7 +179,7 @@ class WordlistController extends Controller
         $wordlist = $wordlist->paginate($this->pageCount);
 
         return view('wordlist/familiar',['hardLevel'=>$hardLevel,'type'=>$type,
-          'currentPage'=>$currentPage,'colors'=>$this->colors,
+          'currentPage'=>$currentPage,'colors'=>WordList::colors,
           'alphabet'=>$this->alphabet])
           ->withWordlists($wordlist);
     }
@@ -224,7 +219,7 @@ class WordlistController extends Controller
       }
 
 
-      return view('wordlist/show',['type'=>$type,'colors'=>$this->colors,
+      return view('wordlist/show',['type'=>$type,'colors'=>WordList::colors,
               'currentPage'=>$currentPage])
               ->withWordlist($wordlist);
 
@@ -254,7 +249,7 @@ class WordlistController extends Controller
           $wordlist->example = $wordlist->example ? $wordlist->example : json_decode($example);
       }
 
-      return view('wordlist/show',['type'=>$type,'colors'=>$this->colors,
+      return view('wordlist/show',['type'=>$type,'colors'=>WordList::colors,
               'currentPage'=>$currentPage])
               ->withWordlist($wordlist);
     }

@@ -29,7 +29,9 @@ class WordlistController extends Controller
             = $wordModel->getJsonDecodeData(
               array($wordlist->contents,$wordlist->phrase,$wordlist->example));
         }
-        return view('admin/wordlist/index',['currentPage'=>$currentPage])->withWordlists($wordlists);
+
+        return view('admin/wordlist/index',['colors'=>Wordlist::colors,
+          'currentPage'=>$currentPage])->withWordlists($wordlists);
     }
 
     /*增功能-对应页面*/

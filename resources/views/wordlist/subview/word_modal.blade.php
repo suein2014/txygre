@@ -3,7 +3,12 @@
   <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="{{$wordlist->word}}label" style="color:deeppink;">{{$wordlist->word}}</h4>
+          <h4 class="modal-title" id="{{$wordlist->word}}label" style="color:deeppink;">
+            <i style="color:{{$colors[$wordlist->familiar]}}" class="fas fa-star"></i>
+            <span> {{$wordlist->word}} </span>
+          </h4>
+          &nbsp;&nbsp;&nbsp;
+          @includeIf('wordlist.subview.hard_color')
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
