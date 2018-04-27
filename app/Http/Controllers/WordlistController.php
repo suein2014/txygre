@@ -20,7 +20,7 @@ class WordlistController extends Controller
       'U','V','W','X','Y','Z',
     ];
 
-    protected $pageCount=50;
+    protected $pageCount=10;
 
     protected $wordModel;
 
@@ -110,24 +110,24 @@ class WordlistController extends Controller
       $currentPage = $request->has('page') ? $request->page : 1;
 
       //default type 'list', will skip switch-clause
-      $wordlist = Wordlist::where('list_number',$listNumber);
+      $wordlists = Wordlist::where('list_number',$listNumber);
       switch($type){
         case 'list_desc':
-          $wordlist = $wordlist->orderBy('id','desc'); break;
+          $wordlists = $wordlists->orderBy('id','desc'); break;
         case 'hard': //familiar desc
-          $wordlist = $wordlist->orderBy('familiar','desc'); break;
+          $wordlists = $wordlists->orderBy('familiar','desc'); break;
         case 'hard_desc':
-          $wordlist = $wordlist->orderBy('familiar'); break;
+          $wordlists = $wordlists->orderBy('familiar'); break;
         case 'alphabet':
-          $wordlist = $wordlist->orderBy('word'); break;
+          $wordlists = $wordlists->orderBy('word'); break;
         case 'alphabet_desc':
-          $wordlist = $wordlist->orderBy('word','desc'); break;
+          $wordlists = $wordlists->orderBy('word','desc'); break;
       }
-      $wordlist = $wordlist->paginate($this->pageCount);
+      $wordlists = $wordlists->paginate($this->pageCount);
 
       return view('wordlist/list',['list_number'=>$listNumber,'type'=>$type,
           'colors'=>$this->colors,'currentPage'=>$currentPage])
-          ->withWordlists($wordlist);
+          ->withWordlists($wordlists);
     }
 
 
@@ -258,6 +258,7 @@ class WordlistController extends Controller
               'currentPage'=>$currentPage])
               ->withWordlist($wordlist);
     }
+
 
 
 

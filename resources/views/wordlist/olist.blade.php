@@ -4,8 +4,8 @@
 <table class="table table-striped table-sm table-hover">
   <thead>
     <tr>
-      <th>Wordlist</th>
-      <th>Words-{{$type}}</th>
+      <th width="7%">Wordlist</th>
+      <th width="93%">Words-{{$type}}</th>
     </tr>
   </thead>
   <tbody>
@@ -54,76 +54,15 @@
             </a>
             <div style="float:right">{{$wordlists->appends(['type'=>$type])->links()}}</div>
             <br/>
-            <div style="float:left">
-              Hard:
-              <button class="btn-sm" style="background-color:darkgrey" disabled="disabled">1</button>
-              <button class="btn-sm" style="background-color:burlywood" disabled="disabled">2</button>
-              <button class="btn-sm" style="background-color:darkseagreen" disabled="disabled">3</button>
-              <button class="btn-sm" style="background-color:cadetblue" disabled="disabled">4</button>
-              <button class="btn-sm" style="background-color:darkturquoise" disabled="disabled">5</button>
-              <button class="btn-sm" style="background-color:coral" disabled="disabled">6</button>
-              <button class="btn-sm" style="background-color:darkgoldenrod" disabled="disabled">7</button>
-              <button class="btn-sm" style="background-color:deeppink" disabled="disabled">8</button>
-              <button class="btn-sm" style="background-color:darkorchid" disabled="disabled">9</button>
-              <button class="btn-sm" style="background-color:red" disabled="disabled">10</button>
-          </div>
+
+            @includeIf('wordlist.subview.hard_color')
+
         </div>
 
 
         <div class="card-body">
-              @if (session('status'))
-                  <div class="alert alert-success">
-                      {{ session('status') }}
-                  </div>
-              @endif
-
-
-              <div id="content">
-                <div class="table-responsive">
-                  <table class="table table-striped table-sm" style="line-height:15px">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>word</th>
-                        <th>Hard</th>
-                        <th>List</th>
-                        <th>Page</th>
-                        <!-- <th>contents</th> -->
-                        <th>db_id</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($wordlists as $loopId=>$wordlist)
-                      <tr>
-                        <td>{{$loopId+1}}</td>
-                        <td>
-                          @if ($wordlist->familiar>5)
-                            <a class="btn btn-outline-secondary btn-sm"
-                             style="font-weight:bold;color:{{$colors[$wordlist->familiar]}}"
-                             href="{{ url('wordlist/'.$wordlist->id) }}">
-                          @else
-                            <a style="color:{{$colors[$wordlist->familiar]}}" href="{{ url('wordlist/'.$wordlist->id) }}">
-                          @endif
-                          {{ $wordlist->word }}
-
-                          </a>
-
-                        </td>
-                        <td>{{ $wordlist->familiar }}</td>
-                        <td>{{ $wordlist->list_number  }}</td>
-                        <td>{{ $wordlist->page_number  }}</td>
-                        <!-- <td>{!! $wordlist->contents !!}</td> -->
-
-                        <td>{{$wordlist->id}}</td>
-                    </tr>
-                      @endforeach
-                </tbody>
-              </table>
-              <div style="float:right">{{$wordlists->appends(['type'=>$type])->links()}}</div>
-              </div>
-            </div>
-
-          </div>
+              @includeIf('wordlist.subview.table_word')
+        </div>
         </div>
       </td>
     </tr>

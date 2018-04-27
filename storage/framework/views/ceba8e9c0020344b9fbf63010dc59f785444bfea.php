@@ -5,8 +5,8 @@
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th>Wordlist</th>
-                  <th>Words-<?php echo e($type); ?></th>
+                  <th width="12%">Wordlist</th>
+                  <th width="88%">Words-<?php echo e($type); ?></th>
                 </tr>
               </thead>
               <tbody>
@@ -56,94 +56,21 @@
                         </a>
                         <div style="float:right"><?php echo e($wordlists->appends(['type'=>$type])->links()); ?></div>
                         <br/>
-                        <div style="float:left">
-                          Hard:
-                          <button class="btn-sm" style="background-color:darkgrey" disabled="disabled">1</button>
-                          <button class="btn-sm" style="background-color:burlywood" disabled="disabled">2</button>
-                          <button class="btn-sm" style="background-color:darkseagreen" disabled="disabled">3</button>
-                          <button class="btn-sm" style="background-color:cadetblue" disabled="disabled">4</button>
-                          <button class="btn-sm" style="background-color:darkturquoise" disabled="disabled">5</button>
-                          <button class="btn-sm" style="background-color:coral" disabled="disabled">6</button>
-                          <button class="btn-sm" style="background-color:darkgoldenrod" disabled="disabled">7</button>
-                          <button class="btn-sm" style="background-color:deeppink" disabled="disabled">8</button>
-                          <button class="btn-sm" style="background-color:darkorchid" disabled="disabled">9</button>
-                          <button class="btn-sm" style="background-color:red" disabled="disabled">10</button>
-                      </div>
+
+                        <?php if ($__env->exists('wordlist.subview.hard_color')) echo $__env->make('wordlist.subview.hard_color', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
                     </div>
 
 
                     <div class="card-body">
-                          <?php if(session('status')): ?>
-                              <div class="alert alert-success">
-                                  <?php echo e(session('status')); ?>
-
-                              </div>
-                          <?php endif; ?>
-
-
-                          <div id="content">
-                            <div class="table-responsive">
-                              <table class="table table-striped table-sm" style="line-height:15px">
-                                <thead>
-                                  <tr>
-                                    <th>#</th>
-                                    <th>word</th>
-                                    <th>Hard</th>
-                                    <th>page</th>
-                                    <!-- <th>contents</th> -->
-                                    <th>db_id</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <?php $__currentLoopData = $wordlists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $loopId=>$wordlist): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                  <tr>
-                                    <td><?php echo e($loopId+1); ?></td>
-                                    <td>
-                                      <?php if($wordlist->familiar>5): ?>
-                                        <a class="btn btn-outline-secondary btn-sm"
-                                         style="color:<?php echo e($colors[$wordlist->familiar]); ?>"
-                                         href="<?php echo e(url('wordlist/'.$wordlist->id.'?page='.$currentPage.'&type='.$type.'#'.$wordlist->id)); ?>">
-                                      <?php else: ?>
-                                        <a style="color:<?php echo e($colors[$wordlist->familiar]); ?>" href="<?php echo e(url('wordlist/'.$wordlist->id.'?page='.$currentPage.'&type='.$type.'#'.$wordlist->id)); ?>">
-                                      <?php endif; ?>
-                                      <?php echo e($wordlist->word); ?>
-
-
-                                      </a>
-
-                                    </td>
-                                    <td><?php echo e($wordlist->familiar); ?></td>
-                                    <td><?php echo e($wordlist->page_number); ?></td>
-                                    <!-- <td><?php echo $wordlist->contents; ?></td> -->
-
-                                    <td><?php echo e($wordlist->id); ?></td>
-                                </tr>
-                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <!-- <ol>
-                                <?php $__currentLoopData = $wordlists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $wordlist): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <li style="margin: 50px 0;">
-                                    <div class="word">
-                                        <a href="<?php echo e(url('wordlist/'.$wordlist->id)); ?>">
-                                            <h4><?php echo e($wordlist->word); ?></h4>
-                                        </a>
-                                    </div>
-                                    <span>page:<?php echo e($wordlist->page_number); ?></span>
-                                        <p><?php echo e($wordlist->contents); ?></p>
-                                </li>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </ol> -->
-                            </tbody>
-                          </table>
-                          <div style="float:right"><?php echo e($wordlists->appends(['type'=>$type])->links()); ?></div>
-                          </div>
-                        </div>
-
-                      </div>
+                          <?php if ($__env->exists('wordlist.subview.table_word')) echo $__env->make('wordlist.subview.table_word', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                     </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
         <!-- </div>
     </div>
 </div> -->

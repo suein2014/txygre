@@ -5,12 +5,12 @@
     @if (count($wordlist->contents->explain) > 1 )
       <ol>
         @foreach ($wordlist->contents->explain as $exp)
-          <li>{{$exp}}</li>
+          <li>{!! html_entity_decode($exp) !!}</li>
         @endforeach
       </ol>
     @else
       @foreach ($wordlist->contents->explain as $exp)
-        <div> {{$exp}} </div>
+        <div> {!! html_entity_decode($exp) !!} </div>
       @endforeach
     @endif
 @endif

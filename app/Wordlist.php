@@ -136,7 +136,7 @@ class Wordlist extends Model
         $ar = $this->execReplace($ar,$replaceType,$replaceTo);//str_replace($replaceArr,$repTo,$ar);
       }
       $ar  = explode($sepChar,$ar); //分隔符分割英文中文
-      if(count($ar)==$sepCount ){ //过滤html不是大多数结构的，嫌麻烦，不想细处理，直接丢掉
+      if(count($ar)==$sepCount ){ //可过滤html不是大多数结构的:嫌麻烦，不想细处理，直接丢掉
         $return[] = array('en'=>trim($ar[0]),'zh'=>trim($ar[1])); //English, Chinese
       }
     }
@@ -169,6 +169,7 @@ class Wordlist extends Model
     return $str;
   }
 
+
   public function getJsonDecodeData($params){
     if(is_array($params)){
       foreach($params as $param){
@@ -181,4 +182,8 @@ class Wordlist extends Model
     }
     return $data;
   }
+
+
+
+
 }
