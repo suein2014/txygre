@@ -101,11 +101,16 @@ class WordlistController extends Controller
     /*乱序版*/
     public function list($listNumber,Request $request)
     {
-      $type = $request->has('type') ? $request->type : 'list';
+      $type = $request->has('type') ? $request->type : 'list'; //sort
       $currentPage = $request->has('page') ? $request->page : 1;
+      $hardLevel = $request->has('hard') ? $request->hard : 0;
 
       //default type 'list', will skip switch-clause
       $wordlists = Wordlist::where('list_number',$listNumber);
+      if($hardLevel>0){
+        $wordlists = $wordlists->where('familiar',$hardLevel);
+      }
+
       switch($type){
         case 'list_desc':
           $wordlists = $wordlists->orderBy('id','desc'); break;
@@ -120,8 +125,9 @@ class WordlistController extends Controller
       }
       $wordlists = $wordlists->paginate($this->pageCount);
 
-      return view('wordlist/list',['list_number'=>$listNumber,'type'=>$type,
-          'colors'=>WordList::colors,'currentPage'=>$currentPage])
+      return view('wordlist/list',['pathId'=>$listNumber,'type'=>$type,
+          'colors'=>WordList::colors,'currentPage'=>$currentPage,'path'=>'list',
+          'hard'=>$hardLevel])
           ->withWordlists($wordlists);
     }
 
@@ -131,27 +137,31 @@ class WordlistController extends Controller
     {
       $type = $request->has('type') ? $request->type : 'alphabet';
       $currentPage = $request->has('page') ? $request->page : 1;
+      $hardLevel = $request->has('hard') ? $request->hard : 0;
 
-      $wl = Wordlist::where('initial',$initial);
+      $wordlists = Wordlist::where('initial',$initial);
+      if($hardLevel>0){
+        $wordlists = $wordlists->where('familiar',$hardLevel);
+      }
       switch($type){
         case 'alphabet':
-            $wordlist = $wl->orderBy('word'); break;
+            $wordlist = $wordlists->orderBy('word'); break;
         case 'alphabet_desc':
-            $wordlist = $wl->orderBy('word','desc'); break;
+            $wordlist = $wordlists->orderBy('word','desc'); break;
         case 'hard':
-            $wordlist = $wl->orderBy('familiar','desc'); break;
+            $wordlist = $wordlists->orderBy('familiar','desc'); break;
         case 'hard_desc':  //familiar desc
-            $wordlist = $wl->orderBy('familiar'); break;
+            $wordlist = $wordlists->orderBy('familiar'); break;
         case 'olist':
-            $wordlist = $wl->orderBy('id'); break;
+            $wordlist = $wordlists->orderBy('id'); break;
         case 'olist_desc':
-            $wordlist = $wl->orderBy('id','desc');  break;
+            $wordlist = $wordlists->orderBy('id','desc');  break;
       }
       $wordlist = $wordlist->paginate($this->pageCount);
 
-      return view('wordlist/olist',['initial'=>$initial,'type'=>$type,
+      return view('wordlist/olist',['pathId'=>$initial,'type'=>$type,
           'colors'=>WordList::colors,'currentPage'=>$currentPage,
-          'alphabet'=>$this->alphabet])
+          'alphabet'=>$this->alphabet,'path'=>'olist','hard'=>$hardLevel])
           ->withWordlists($wordlist);
 
     }
@@ -178,7 +188,7 @@ class WordlistController extends Controller
         }
         $wordlist = $wordlist->paginate($this->pageCount);
 
-        return view('wordlist/familiar',['hardLevel'=>$hardLevel,'type'=>$type,
+        return view('wordlist/familiar',['pathId'=>$hardLevel,'type'=>$type,
           'currentPage'=>$currentPage,'colors'=>WordList::colors,
           'alphabet'=>$this->alphabet])
           ->withWordlists($wordlist);

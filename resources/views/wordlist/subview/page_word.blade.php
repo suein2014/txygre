@@ -8,11 +8,14 @@
   @else
     <a style="color:{{$colors[$wordlist->familiar]}}" href="{{ url('wordlist/'.$wordlist->id.'?page='.$currentPage.'&type='.$type.'#'.$wordlist->id) }}">
   @endif
-  <b>{{ $wordlist->word }}</b>
+  <span style="font-size:20px">{{ $wordlist->word }}</span>
   </a>
   @if ( !empty($wordlist->contents=json_decode($wordlist->contents)) )
     <p><span style="color: black;">{{$wordlist->contents->phonitic}}</span></p>
   @endif
+
+  <button style="color:grey" type="button" class="btn btn-light" onclick="hideWordline({{$wordlist->id}})" >隐藏</button>
+  <p><span style="color: grey;"> Page&nbsp;{{$wordlist->page_number}} </span></p>
 </td>
 
 @if( $loopId %2 !=0)

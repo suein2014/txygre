@@ -33,6 +33,9 @@
                     <?php echo e(config('app.name', 'GRE Learning')); ?>
 
                 </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <form class="form-inline" action="<?php echo e(url('wordlist/search')); ?>">
                   <input class="form-control mr-sm-2" name="searchword" type="search" placeholder="Search" aria-label="Search">
@@ -84,8 +87,12 @@
               <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                   <li class="nav-item">
-                    <?php if( Request::path() == 'wordlist'): ?>
-                      <a class="nav-link active" href="<?php echo e(url('wordlist')); ?>">
+                    <?php if( Request::path() == 'wordlist'
+                      || substr(Request::path(),0,13) == 'wordlist/list'
+                      || substr(Request::path(),0,14) == 'wordlist/olist'
+                      || substr(Request::path(),0,17) == 'wordlist/familiar'
+                      ): ?>
+                      <a  style="font-size:25px" class="nav-link active" href="<?php echo e(url('wordlist')); ?>">
                     <?php else: ?>
                       <a class="nav-link" href="<?php echo e(url('wordlist')); ?>">
                     <?php endif; ?>
@@ -95,8 +102,8 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <?php if( Request::path() == 'wordlist/card'): ?>
-                      <a class="nav-link active" href="<?php echo e(url('wordlist/card')); ?>">
+                    <?php if( substr(Request::path(),0,13) == 'wordlist/card'): ?>
+                      <a style="font-size:25px" class="nav-link active" href="<?php echo e(url('wordlist/card')); ?>">
                     <?php else: ?>
                       <a class="nav-link" href="<?php echo e(url('wordlist/card')); ?>">
                     <?php endif; ?>
@@ -106,8 +113,8 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <?php if( Request::path() == 'wordlist/test'): ?>
-                      <a class="nav-link active" href="<?php echo e(url('wordlist/test')); ?>">
+                    <?php if( substr(Request::path(),0,13) == 'wordlist/test'): ?>
+                      <a style="font-size:25px" class="nav-link active" href="<?php echo e(url('wordlist/test')); ?>">
                     <?php else: ?>
                       <a class="nav-link" href="<?php echo e(url('wordlist/test')); ?>">
                     <?php endif; ?>
@@ -154,6 +161,13 @@
     document.getElementById($cwid).style.visibility="hidden"; //保留物理空间
 
 
+  }
+
+  function hideWordline($id){
+     var $hwlid = 'hwl'+ $id;
+
+     $("#"+$hwlid).hide(); //不保留物理空间
+    //document.getElementById($hwlid).hide(); //保留物理空间
   }
 
 

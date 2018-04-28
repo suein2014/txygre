@@ -3,10 +3,10 @@
 @section('content')
 <table class="table table-striped table-sm table-hover">
   <thead>
-    <tr>
+    <!-- <tr>
       <th width="12%">Wordlist</th>
-      <th width="88%">Words-{{$hardLevel}}-{{$type}}</th>
-    </tr>
+      <th width="88%">Words-{{$pathId}}-{{$type}}</th>
+    </tr> -->
   </thead>
   <tbody>
     <tr>
@@ -14,7 +14,7 @@
       <div class="card">
         <ul class="list-group">
           @for ($i=10; $i>0;$i--)
-            @if ($hardLevel==$i)
+            @if ($pathId==$i)
               <li class="list-group-item active" >
             @else
               <li class="list-group-item">
@@ -34,22 +34,21 @@
       <div class="card">
         <div class="card-header">
             排序:
-            <a class="btn btn-danger" role="button" href="{{ url('wordlist/familiar/'.$hardLevel.'?type=alphabet') }}">
+            <a class="btn btn-danger" role="button" href="{{ url('wordlist/familiar/'.$pathId.'?type=alphabet') }}">
               Alphabet
             </a>
-            <a class="btn btn-info" role="button" href="{{ url('wordlist/familiar/'.$hardLevel.'?type=alphabet_desc') }}">
+            <a class="btn btn-info" role="button" href="{{ url('wordlist/familiar/'.$pathId.'?type=alphabet_desc') }}">
               Alphabet Desc
             </a>
-            <a class="btn btn-success" role="button" href="{{ url('wordlist/familiar/'.$hardLevel.'?type=list') }}">
+            <a class="btn btn-success" role="button" href="{{ url('wordlist/familiar/'.$pathId.'?type=list') }}">
               List
             </a>
-            <a class="btn btn-info" role="button" href="{{ url('wordlist/familiar/'.$hardLevel.'?type=list_desc') }}">
+            <a class="btn btn-info" role="button" href="{{ url('wordlist/familiar/'.$pathId.'?type=list_desc') }}">
               List Desc
             </a>
             <div style="float:right">{{$wordlists->appends(['type'=>$type])->links()}}</div>
             <br/>
 
-            @includeIf('wordlist.subview.hard_color')
 
         </div>
 

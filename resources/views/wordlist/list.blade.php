@@ -7,8 +7,7 @@
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th width="12%">Wordlist</th>
-                  <th width="88%">Words-{{$type}}</th>
+                  <th width="13%"></th>
                 </tr>
               </thead>
               <tbody>
@@ -17,7 +16,7 @@
                   <div class="card">
                     <ul class="list-group">
                         @for ($i=1; $i<51;$i++)
-                          @if ($list_number==$i)
+                          @if ($pathId==$i)
                             <li class="list-group-item active" >
                           @else
                             <li class="list-group-item">
@@ -37,25 +36,25 @@
                   <div class="card">
                     <div class="card-header">
                         排序:
-                        <a class="btn btn-primary" role="button" href="{{ url('wordlist/list/'.$list_number) }}">
-                          List {{$list_number}}
+                        <a class="btn btn-primary" role="button" href="{{ url('wordlist/list/'.$pathId) }}">
+                          List {{$pathId}}
                         </a>
-                        <a class="btn btn-primary" role="button" href="{{ url('wordlist/list/'.$list_number.'?type=list_desc')}}">
-                          List {{$list_number}} Desc
+                        <a class="btn btn-primary" role="button" href="{{ url('wordlist/list/'.$pathId.'?type=list_desc')}}">
+                          List {{$pathId}} Desc
                         </a>
-                        <a class="btn btn-danger" role="button" href="{{ url('wordlist/list/'.$list_number.'?type=hard') }}">
+                        <a class="btn btn-danger" role="button" href="{{ url('wordlist/list/'.$pathId.'?type=hard') }}">
                           Hard
                         </a>
-                        <a class="btn btn-info" role="button" href="{{ url('wordlist/list/'.$list_number.'?type=hard_desc') }}">
+                        <a class="btn btn-info" role="button" href="{{ url('wordlist/list/'.$pathId.'?type=hard_desc') }}">
                           Hard Desc
                         </a>
-                        <a class="btn btn-success" role="button" href="{{ url('wordlist/list/'.$list_number.'?type=alphabet') }}">
+                        <a class="btn btn-success" role="button" href="{{ url('wordlist/list/'.$pathId.'?type=alphabet') }}">
                           Alphabet
                         </a>
-                        <a class="btn btn-warning" role="button" href="{{ url('wordlist/list/'.$list_number.'?type=alphabet_desc') }}">
+                        <a class="btn btn-warning" role="button" href="{{ url('wordlist/list/'.$pathId.'?type=alphabet_desc') }}">
                           Alphabet Desc
                         </a>
-                        <div style="float:right">{{$wordlists->appends(['type'=>$type])->links()}}</div>
+                        <div style="float:right">{{$wordlists->appends(['type'=>$type,'hard'=>$hard])->links()}}</div>
                         <br/>
 
                         @includeIf('wordlist.subview.hard_color')

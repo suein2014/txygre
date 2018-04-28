@@ -10,13 +10,13 @@
       <thead>
         <tr>
           <!-- <th>#</th> -->
-          <th width="15%">word</th>
-          <th width="85%">contents</th>
+          <th width="18%">word</th>
+          <th width="82%">contents</th>
         </tr>
       </thead>
       <tbody>
           @foreach ($wordlists as $loopId=>$wordlist)
-          <tr>
+          <tr id="hwl{{$wordlist->id}}">
             <!-- <td>{{$loopId+1}}</td> -->
             @includeIf('wordlist.subview.page_word')
           </tr>

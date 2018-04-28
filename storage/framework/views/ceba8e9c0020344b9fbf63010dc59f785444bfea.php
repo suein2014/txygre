@@ -5,8 +5,7 @@
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th width="12%">Wordlist</th>
-                  <th width="88%">Words-<?php echo e($type); ?></th>
+                  <th width="13%"></th>
                 </tr>
               </thead>
               <tbody>
@@ -15,7 +14,7 @@
                   <div class="card">
                     <ul class="list-group">
                         <?php for($i=1; $i<51;$i++): ?>
-                          <?php if($list_number==$i): ?>
+                          <?php if($pathId==$i): ?>
                             <li class="list-group-item active" >
                           <?php else: ?>
                             <li class="list-group-item">
@@ -35,26 +34,26 @@
                   <div class="card">
                     <div class="card-header">
                         排序:
-                        <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/list/'.$list_number)); ?>">
-                          List <?php echo e($list_number); ?>
+                        <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/list/'.$pathId)); ?>">
+                          List <?php echo e($pathId); ?>
 
                         </a>
-                        <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/list/'.$list_number.'?type=list_desc')); ?>">
-                          List <?php echo e($list_number); ?> Desc
+                        <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/list/'.$pathId.'?type=list_desc')); ?>">
+                          List <?php echo e($pathId); ?> Desc
                         </a>
-                        <a class="btn btn-danger" role="button" href="<?php echo e(url('wordlist/list/'.$list_number.'?type=hard')); ?>">
+                        <a class="btn btn-danger" role="button" href="<?php echo e(url('wordlist/list/'.$pathId.'?type=hard')); ?>">
                           Hard
                         </a>
-                        <a class="btn btn-info" role="button" href="<?php echo e(url('wordlist/list/'.$list_number.'?type=hard_desc')); ?>">
+                        <a class="btn btn-info" role="button" href="<?php echo e(url('wordlist/list/'.$pathId.'?type=hard_desc')); ?>">
                           Hard Desc
                         </a>
-                        <a class="btn btn-success" role="button" href="<?php echo e(url('wordlist/list/'.$list_number.'?type=alphabet')); ?>">
+                        <a class="btn btn-success" role="button" href="<?php echo e(url('wordlist/list/'.$pathId.'?type=alphabet')); ?>">
                           Alphabet
                         </a>
-                        <a class="btn btn-warning" role="button" href="<?php echo e(url('wordlist/list/'.$list_number.'?type=alphabet_desc')); ?>">
+                        <a class="btn btn-warning" role="button" href="<?php echo e(url('wordlist/list/'.$pathId.'?type=alphabet_desc')); ?>">
                           Alphabet Desc
                         </a>
-                        <div style="float:right"><?php echo e($wordlists->appends(['type'=>$type])->links()); ?></div>
+                        <div style="float:right"><?php echo e($wordlists->appends(['type'=>$type,'hard'=>$hard])->links()); ?></div>
                         <br/>
 
                         <?php if ($__env->exists('wordlist.subview.hard_color')) echo $__env->make('wordlist.subview.hard_color', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
