@@ -36,7 +36,11 @@
           <div class="card-header">
             @if ($type=='alphabet')
               @foreach ($alphabet as $ab)
-              <a class="btn btn-primary" role="button" href="{{ url('wordlist/card?type=alphabet&initial='.$ab) }}">
+                @if( $initial==$ab)
+                  <a class="btn btn-primary" role="button" href="{{ url('wordlist/card?type=alphabet&initial='.$ab) }}">
+                @else
+                  <a class="btn btn-success" role="button" href="{{ url('wordlist/card?type=alphabet&initial='.$ab) }}">
+                @endif
                 {{$ab}}
               </a>
               @endforeach
@@ -44,7 +48,11 @@
 
             @if ($type=='hard')
               @for($i=10;$i>0;$i--)
-              <a class="btn btn-success" role="button" href="{{ url('wordlist/card?type=hard&hard='.$i) }}">
+              @if( $familiar==$i)
+                <a class="btn btn-primary" role="button" href="{{ url('wordlist/card?type=hard&hard='.$i) }}">
+              @else
+                <a class="btn btn-success" role="button" href="{{ url('wordlist/card?type=hard&hard='.$i) }}">
+              @endif
                 H{{$i}}
               </a>
               @endfor
@@ -52,9 +60,13 @@
 
             @if ($type=='list')
               @for($i=1;$i<51;$i++)
-              <a class="btn btn-light" role="button" href="{{ url('wordlist/card?type=list&list_number='.$i) }}">
+                @if( $list_number==$i)
+                  <a class="btn btn-primary" role="button" href="{{ url('wordlist/card?type=list&list_number='.$i) }}">
+                @else
+                  <a class="btn btn-light" role="button" href="{{ url('wordlist/card?type=list&list_number='.$i) }}">
+                @endif
                 L{{$i}}
-              </a>
+                </a>
               @endfor
             @endif
 
@@ -68,7 +80,10 @@
                     </div>
                 @endif
 
-            <a href="{{ url('wordlist/card?type='.$type.'&initial='.$initial.'&hard='.$familiar.'&list_number='.$list_number) }}" class="btn btn-lg btn-warning">刷新</a>
+            <a href="{{ url('wordlist/card?random=0&type='.$type.'&initial='.$initial.'&hard='.$familiar.'&list_number='.$list_number) }}" class="btn btn-lg btn-warning">刷新</a>
+            @if ($type!='random')
+            <a href="{{ url('wordlist/card?random=1&type='.$type.'&initial='.$initial.'&hard='.$familiar.'&list_number='.$list_number) }}" class="btn btn-lg btn-warning">随机刷新</a>
+            @endif
             <table class="table table-sm" >
               <tr>
                @foreach ($wordlists as $loopId=>$wordlist)

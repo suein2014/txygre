@@ -34,7 +34,11 @@
           <div class="card-header">
             <?php if($type=='alphabet'): ?>
               <?php $__currentLoopData = $alphabet; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ab): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-              <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/card?type=alphabet&initial='.$ab)); ?>">
+                <?php if( $initial==$ab): ?>
+                  <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/card?type=alphabet&initial='.$ab)); ?>">
+                <?php else: ?>
+                  <a class="btn btn-success" role="button" href="<?php echo e(url('wordlist/card?type=alphabet&initial='.$ab)); ?>">
+                <?php endif; ?>
                 <?php echo e($ab); ?>
 
               </a>
@@ -43,7 +47,11 @@
 
             <?php if($type=='hard'): ?>
               <?php for($i=10;$i>0;$i--): ?>
-              <a class="btn btn-success" role="button" href="<?php echo e(url('wordlist/card?type=hard&hard='.$i)); ?>">
+              <?php if( $familiar==$i): ?>
+                <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/card?type=hard&hard='.$i)); ?>">
+              <?php else: ?>
+                <a class="btn btn-success" role="button" href="<?php echo e(url('wordlist/card?type=hard&hard='.$i)); ?>">
+              <?php endif; ?>
                 H<?php echo e($i); ?>
 
               </a>
@@ -52,10 +60,14 @@
 
             <?php if($type=='list'): ?>
               <?php for($i=1;$i<51;$i++): ?>
-              <a class="btn btn-light" role="button" href="<?php echo e(url('wordlist/card?type=list&list_number='.$i)); ?>">
+                <?php if( $list_number==$i): ?>
+                  <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/card?type=list&list_number='.$i)); ?>">
+                <?php else: ?>
+                  <a class="btn btn-light" role="button" href="<?php echo e(url('wordlist/card?type=list&list_number='.$i)); ?>">
+                <?php endif; ?>
                 L<?php echo e($i); ?>
 
-              </a>
+                </a>
               <?php endfor; ?>
             <?php endif; ?>
 
@@ -70,7 +82,10 @@
                     </div>
                 <?php endif; ?>
 
-            <a href="<?php echo e(url('wordlist/card?type='.$type.'&initial='.$initial.'&hard='.$familiar.'&list_number='.$list_number)); ?>" class="btn btn-lg btn-warning">刷新</a>
+            <a href="<?php echo e(url('wordlist/card?random=0&type='.$type.'&initial='.$initial.'&hard='.$familiar.'&list_number='.$list_number)); ?>" class="btn btn-lg btn-warning">刷新</a>
+            <?php if($type!='random'): ?>
+            <a href="<?php echo e(url('wordlist/card?random=1&type='.$type.'&initial='.$initial.'&hard='.$familiar.'&list_number='.$list_number)); ?>" class="btn btn-lg btn-warning">随机刷新</a>
+            <?php endif; ?>
             <table class="table table-sm" >
               <tr>
                <?php $__currentLoopData = $wordlists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $loopId=>$wordlist): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

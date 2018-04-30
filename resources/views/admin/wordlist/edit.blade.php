@@ -25,15 +25,15 @@
                             required="required" value="{{$wordlist->word}}">
                         <div>内容:</div>
                         <textarea name="contents" rows="5" class="form-control">
-
+                          {{$wordlist->contents}}
                         </textarea>
                         <div>词组:</div>
                         <textarea name="phrase" rows="5" class="form-control">
-
+                          {{$wordlist->phrase}}
                         </textarea>
                         <div>例句:</div>
                         <textarea name="example" rows="5" class="form-control">
-                          
+                          {{$wordlist->example}}
                         </textarea>
                         <br>
                         <div>熟悉程度(10为最不熟悉):</div>

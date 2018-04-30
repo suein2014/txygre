@@ -47,7 +47,7 @@ class Wordlist extends Model
     /*匹配美式读音*/
     $phonitic = $ql->find('span.Phonitic:last')->html();
     /*匹配单词意思*/
-    $explain = $ql->find('ol')->children('li')->htmls();
+    $explain = $ql->find('#ExpFCChild')->find('ol')->children('li')->htmls();
     $explain = array_map(function($e){return str_replace(array('<i>','</i>'),'',$e);},
               $explain->toArray()); //去掉数组里多余的i标签
     if(! isset($explain[0])){

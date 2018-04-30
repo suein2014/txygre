@@ -57,10 +57,11 @@ class WordlistController extends Controller
       $initial = $request->has('initial') ? $request->initial : 'A';
       $listNumber = $request->has('list_number') ? $request->list_number : 1;
       $familiar = $request->has('hard') ? $request->hard : 10;
+      $isRandom = $request->has('random') ? $request->random : 0;
 
       $cardType=array('random','alphabet','hard','list');
 
-      $showCount = 52;
+      $showCount = 160;
       $showColumn=4;
 
       //库支持直接rand取 LOL
@@ -75,7 +76,12 @@ class WordlistController extends Controller
           case 'list':
             $wordlists= Wordlist::where('list_number',$listNumber); break;
         }
-        $wordlists= $wordlists->orderByRaw('RAND()')->take($showCount)->get();
+        if($isRandom){
+          $wordlists= $wordlists->orderByRaw('RAND()')->take($showCount)->get();
+        }else{
+          $wordlists= $wordlists->orderBy('word')->take($showCount)->get();
+        }
+
       }
 
       //遍历数组，闭包实现解码json_encode部分，如果是字符串解码为空则保留原串
