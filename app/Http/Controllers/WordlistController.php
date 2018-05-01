@@ -56,8 +56,12 @@ class WordlistController extends Controller
       $type = $request->has('type') ? $request->type : 'random';
       $initial = $request->has('initial') ? $request->initial : 'A';
       $listNumber = $request->has('list_number') ? $request->list_number : 1;
-      $familiar = $request->has('hard') ? $request->hard : 10;
+      $hard = $request->has('hard') ? $request->hard : 10;
       $isRandom = $request->has('random') ? $request->random : 0;
+      $listHard = $request->has('listhard') ? $request->listhard : 0;
+
+      //Three types, 1=>'sort_by_word',2=>'refresh_randomly',3=>'filter_by_hard'. see in card templates.
+      $subType = $request->has('subtype') ? $request->subtype : 0;
 
       $cardType=array('random','alphabet','hard','list');
 
@@ -66,23 +70,28 @@ class WordlistController extends Controller
 
       //库支持直接rand取 LOL
       if($type=="random"){
-        $wordlists= Wordlist::orderByRaw('RAND()')->take($showCount)->get();
+        $wordlists= Wordlist::orderByRaw('RAND()');
       }else{
-        switch($type){
-          case 'alphabet':
-            $wordlists= Wordlist::where('initial',$initial); break;
-          case 'hard':
-            $wordlists= Wordlist::where('familiar',$familiar); break;
-          case 'list':
-            $wordlists= Wordlist::where('list_number',$listNumber); break;
-        }
-        if($isRandom){
-          $wordlists= $wordlists->orderByRaw('RAND()')->take($showCount)->get();
-        }else{
-          $wordlists= $wordlists->orderBy('word')->take($showCount)->get();
-        }
-
+          switch($type){
+            case 'alphabet':
+              $wordlists= Wordlist::where('initial',$initial); break;
+            case 'hard':
+              $wordlists= Wordlist::where('familiar',$hard); break;
+            case 'list':
+              $wordlists= Wordlist::where('list_number',$listNumber);
+              if($subType==3){ // filter by hard
+                $wordlists= $wordlists->where('familiar','>',7);
+              }
+              break;
+          }
+          if($subType==2){ //refresh randomly
+            $wordlists= $wordlists->orderByRaw('RAND()');
+          }else{
+            $wordlists= $wordlists->orderBy('word');
+          }
       }
+      $count = $wordlists->count();
+      $wordlists= $wordlists->take($showCount)->get();
 
       //遍历数组，闭包实现解码json_encode部分，如果是字符串解码为空则保留原串
       $wordlists = array_map(function($e){
@@ -92,9 +101,9 @@ class WordlistController extends Controller
         return $e;
       },$wordlists->toArray());
 
-      return view('wordlist/card',['showColumn'=>$showColumn,
+      return view('wordlist/card',['showColumn'=>$showColumn,'count'=>$count,
         'initial'=>$initial,'list_number'=>$listNumber,
-        'familiar'=>$familiar,'alphabet'=>$this->alphabet,
+        'hard'=>$hard,'alphabet'=>$this->alphabet,'subType'=>$subType,
         'cardTypes'=>$cardType,'type'=>$type,'colors'=>WordList::colors])
         ->withWordlists($wordlists);
     }

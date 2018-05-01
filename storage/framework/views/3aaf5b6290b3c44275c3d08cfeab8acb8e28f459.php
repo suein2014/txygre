@@ -34,37 +34,25 @@
           <div class="card-header">
             <?php if($type=='alphabet'): ?>
               <?php $__currentLoopData = $alphabet; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ab): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php if( $initial==$ab): ?>
-                  <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/card?type=alphabet&initial='.$ab)); ?>">
-                <?php else: ?>
-                  <a class="btn btn-success" role="button" href="<?php echo e(url('wordlist/card?type=alphabet&initial='.$ab)); ?>">
-                <?php endif; ?>
+                <a class="btn btn-<?php echo e($initial==$ab?'primary':'success'); ?>" role="button" href="<?php echo e(url('wordlist/card?type=alphabet&initial='.$ab)); ?>">
                 <?php echo e($ab); ?>
 
-              </a>
+                </a>
               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             <?php endif; ?>
 
             <?php if($type=='hard'): ?>
               <?php for($i=10;$i>0;$i--): ?>
-              <?php if( $familiar==$i): ?>
-                <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/card?type=hard&hard='.$i)); ?>">
-              <?php else: ?>
-                <a class="btn btn-success" role="button" href="<?php echo e(url('wordlist/card?type=hard&hard='.$i)); ?>">
-              <?php endif; ?>
+                <a class="btn btn-<?php echo e($hard==$i?'primary':'success'); ?>" role="button" href="<?php echo e(url('wordlist/card?type=hard&hard='.$i)); ?>">
                 H<?php echo e($i); ?>
 
-              </a>
+                </a>
               <?php endfor; ?>
             <?php endif; ?>
 
             <?php if($type=='list'): ?>
               <?php for($i=1;$i<51;$i++): ?>
-                <?php if( $list_number==$i): ?>
-                  <a class="btn btn-primary" role="button" href="<?php echo e(url('wordlist/card?type=list&list_number='.$i)); ?>">
-                <?php else: ?>
-                  <a class="btn btn-light" role="button" href="<?php echo e(url('wordlist/card?type=list&list_number='.$i)); ?>">
-                <?php endif; ?>
+                <a class="btn btn-<?php echo e($list_number==$i?'primary':'light'); ?>" role="button" href="<?php echo e(url('wordlist/card?type=list&list_number='.$i)); ?>">
                 L<?php echo e($i); ?>
 
                 </a>
@@ -82,10 +70,14 @@
                     </div>
                 <?php endif; ?>
 
-            <a href="<?php echo e(url('wordlist/card?random=0&type='.$type.'&initial='.$initial.'&hard='.$familiar.'&list_number='.$list_number)); ?>" class="btn btn-lg btn-warning">刷新</a>
+            <a href="<?php echo e(url('wordlist/card?subtype=1&type='.$type.'&initial='.$initial.'&hard='.$hard.'&list_number='.$list_number)); ?>" class="btn btn-lg btn-<?php echo e($subType==0||$subType==1 ? 'warning':'light'); ?>">刷新</a>
             <?php if($type!='random'): ?>
-            <a href="<?php echo e(url('wordlist/card?random=1&type='.$type.'&initial='.$initial.'&hard='.$familiar.'&list_number='.$list_number)); ?>" class="btn btn-lg btn-warning">随机刷新</a>
+            <a href="<?php echo e(url('wordlist/card?subtype=2&type='.$type.'&initial='.$initial.'&hard='.$hard.'&list_number='.$list_number)); ?>" class="btn btn-lg btn-<?php echo e($subType==2 ? 'warning':'light'); ?>">随机刷新</a>
             <?php endif; ?>
+            <?php if($type=='list'): ?>
+            <a href="<?php echo e(url('wordlist/card?subtype=3&type='.$type.'&hard='.$hard.'&list_number='.$list_number)); ?>" class="btn btn-lg btn-<?php echo e($subType==3 ? 'warning':'light'); ?>">生词刷新</a>
+            <?php endif; ?>
+            &nbsp;<span style="color:Grey">计数:<?php echo e($count); ?></span>
             <table class="table table-sm" >
               <tr>
                <?php $__currentLoopData = $wordlists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $loopId=>$wordlist): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
