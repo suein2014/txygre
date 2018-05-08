@@ -10,6 +10,7 @@
           &nbsp;&nbsp;&nbsp;
           @includeIf('wordlist.subview.hard_color')
           &nbsp;<span style="color:Grey"> Page:{{$wordlist->page_number}}</span>
+          <span style="color: grey;"> &nbsp;Id:{{$wordlist->id}} </span>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

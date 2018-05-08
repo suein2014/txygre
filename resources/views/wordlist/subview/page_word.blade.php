@@ -16,7 +16,10 @@
 
   <button style="color:grey" type="button" class="btn btn-light" onclick="hideWordline({{$wordlist->id}})" >隐藏</button>
   <a style="color: grey;" type="button" target="_blank" href="{{url('admin/wordlists/'.$wordlist->id.'/edit')}}">编辑</a>
-  <p><span style="color: grey;"> Page&nbsp;{{$wordlist->page_number}} </span></p>
+  <p>
+    <span style="color: grey;"> Page:{{$wordlist->page_number}} |
+    <span style="color: grey;"> Id:{{$wordlist->id}} </span>
+  </p>
 </td>
 
 @if( $loopId %2 !=0)

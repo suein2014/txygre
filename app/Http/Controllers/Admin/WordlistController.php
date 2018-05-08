@@ -124,9 +124,9 @@ class WordlistController extends Controller
         ]);
 
         $wordlist = Wordlist::findOrFail($id);
-        if(empty($wordlist->initial)){
-          $wordlist->initial= ucfirst(substr($wordlist->word,0,1));
-        }
+        //if(empty($wordlist->initial)){
+        $wordlist->initial= ucfirst(substr($wordlist->word,0,1));
+        //}
 
         foreach (array_keys($this->fields) as $field) {
           $wordlist->$field = $request->get($field);

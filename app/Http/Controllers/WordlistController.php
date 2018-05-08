@@ -65,7 +65,7 @@ class WordlistController extends Controller
 
       $cardType=array('random','alphabet','hard','list');
 
-      $showCount = 160;
+      $showCount = 300;
       $showColumn=4;
 
       //库支持直接rand取 LOL

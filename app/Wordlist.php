@@ -184,7 +184,7 @@ class Wordlist extends Model
       }
     }else{
       $d = json_decode($params);
-      $data = $d ? $d : $param ;
+      $data = $d ? $d : $params ;
     }
     return $data;
   }
