@@ -86,7 +86,7 @@
 
                 <td id="cw{{$wordlist->id}}">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{$wordlist->word}}">
+                    <button type="button" style="background-color:{{$wordlist->familiar>7?'floralwhite':($wordlist->familiar>4? 'lightblue':'honeydew')}};color:{{$wordlist->familiar>7? 'red':($wordlist->familiar>4 ? 'black':'grey')}}" class="btn btn-outline-secondary" data-toggle="modal" data-target="#{{$wordlist->word}}">
                       <span style="font-size:1.5em;"> {{$wordlist->word}} </span>
                     </button>
                     <button type="button" class="btn btn-light" onclick="hideWord({{$wordlist->id}})" >隐藏</button>

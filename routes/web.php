@@ -29,7 +29,7 @@ Route::get('/wordlist/list/{id}','WordlistController@list');
 Route::get('/wordlist/olist/{initial}/','WordlistController@olist');
 Route::get('/wordlist/familiar/{id}','WordlistController@familiar');
 
-
+//Route::get('/translate', 'TranslateController@index')->name('translate');
 
 
 

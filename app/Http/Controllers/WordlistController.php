@@ -44,11 +44,20 @@ class WordlistController extends Controller
       return view('wordlist',['alphabet'=>$this->alphabet]);
     }
 
-    public function test()
+    public function test(Request $request)
     {
-      list($contents,$phrase,$example) = $this->wordModel->getWordInfoTest();
-      return view('wordlist/test',['phrase'=>$phrase,
-            'contents'=>$contents,'example'=>$example]);
+      $word = $request->has('w') ? $request->w : 'china';
+
+      // $this->wordModel->translate();
+
+      list($write,$d) = $this->wordModel->translateByWord($word);
+      var_dump($write);var_dump($d);exit;
+      // return view('wordlist/test',['data'=>$data]);
+
+      // list($contents,$phrase,$example) = $this->wordModel->getWordInfoTest();
+      // return view('wordlist/test',['phrase'=>$phrase,
+      //       'contents'=>$contents,'example'=>$example]);
+
     }
 
     /*卡片页*/

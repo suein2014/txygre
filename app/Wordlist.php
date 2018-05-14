@@ -23,6 +23,107 @@ class Wordlist extends Model
   }
 
 
+  /*
+  |--------------------------------------------------------------------------
+  |帮他做的得到单词意思文件的部分  BEGIN
+  |--------------------------------------------------------------------------
+   */
+  public function translate(){
+    //read from
+    $rFileDir = dirname(dirname(__FILE__)).'/tests/words_en.txt';
+    //to write
+    $wFileDir = dirname(dirname(__FILE__)).'/tests/words_en_zh.txt';
+
+    $count=0;
+    //sleep <sleepTime> seconds each <sleepCount>
+    $sleepTime = 3;
+    $sleepCount = 50;
+
+    $handle = fopen($rFileDir, "r"); //open file
+    if ($handle) {
+        echo "start...".PHP_EOL;
+        while (($line = fgets($handle)) !== false) { //read file line by line
+            if($count > $sleepCount && $count%$sleepCount ==0){
+              sleep($sleepTime);
+            }
+            $count += 1;
+            echo $count.':'.$line.'...';
+            //get all Chinese explanation for the current word
+            list($writeWord,) = $this->translateByWord( trim($line) );
+            if($writeWord){
+              //concat all explanation for the current word with newline character.
+              $wirteWordStr = ($count>1 ? PHP_EOL : '').implode(PHP_EOL,$writeWord);
+              //then write them into file once.
+              file_put_contents($wFileDir, $wirteWordStr,FILE_APPEND);
+            }
+
+        }
+        fclose($handle); //close the file.
+    }
+  }
+
+
+  public function translateByWord($word){
+    $xmlData=$this->getOnlineTranslate($word);
+    $dataObj = simplexml_load_string($xmlData);
+    $data = json_decode(json_encode($dataObj),true);
+
+    $d=$write = array();
+    if(isset($data['pos'])){
+      if(is_array($data['pos'])){
+          foreach ($data['pos'] as $key => $value) {
+            $d[$value] = $data['acceptation'][$key];
+            $zh = $this->getSingleWordArr($word,$data['acceptation'][$key]);
+            $write = array_merge($write,$zh);
+          }
+      }else{
+          $d[$data['pos']] = $data['acceptation'];
+          $write=$this->getSingleWordArr($word,$data['acceptation']);
+      }
+    }
+    return [$write,$d];
+  }
+
+
+  public function getOnlineTranslate($zhword){
+    $jscbDictInfo = config('thirdparty.jscb.dict');
+    $url = $jscbDictInfo['url']."?w=".$zhword."&key=".$jscbDictInfo['key'];
+    $xmlData = file_get_contents($url);
+    return $xmlData;
+  }
+
+  //帮他做，得到单词对应个字解释的文件
+  public function getSingleWordArr($param,$words){
+    $wordArr = preg_split('/；|;|，|,/',$words,null,PREG_SPLIT_NO_EMPTY);
+    //$wordArr = preg_grep('/[^\(\)\[\]\<\>（）【】〈〉\s]/',$wordArr); //咋不管用呢?
+    $write = array();
+    foreach($wordArr as $k=>$v){
+      if( strpos($v,'、')!==false || strpos($v,'（')!==false || strpos($v,'）')!==false
+        || strpos($v,'〈')!==false || strpos($v,'〉')!==false
+        || strpos($v,'[')!==false ||  strpos($v,']')!==false ){
+        continue;
+      }
+      if(trim($v)){
+        //concat with a space.
+        $write[] = trim($v).' '.$param;
+      }
+    }
+    return $write;
+  }
+
+/*
+*****************  帮他做的得到单词解释文件的部分 END *************************
+*/
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| GRE Words - My Project
+|--------------------------------------------------------------------------
+ */
 
   /*从Online Dict抓取单词的 含义、美式发音、词组和例句*/
   public function getWordInfoFromOnlineDict($word){
@@ -188,8 +289,5 @@ class Wordlist extends Model
     }
     return $data;
   }
-
-
-
 
 }

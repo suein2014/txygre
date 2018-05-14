@@ -5,6 +5,9 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+//xiaoyan加的，为了手动临时后台执行一个方法 sudo php artisan schedule:run
+use App\Wordlist;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -24,6 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->call(function(){
+          $wordObj = new Wordlist();
+          $wordObj->translate();
+        });
         // $schedule->command('inspire')
         //          ->hourly();
     }

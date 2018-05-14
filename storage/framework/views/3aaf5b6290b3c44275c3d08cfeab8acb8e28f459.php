@@ -88,7 +88,7 @@
 
                 <td id="cw<?php echo e($wordlist->id); ?>">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#<?php echo e($wordlist->word); ?>">
+                    <button type="button" style="background-color:<?php echo e($wordlist->familiar>7?'floralwhite':($wordlist->familiar>4? 'lightblue':'honeydew')); ?>;color:<?php echo e($wordlist->familiar>7? 'red':($wordlist->familiar>4 ? 'black':'grey')); ?>" class="btn btn-outline-secondary" data-toggle="modal" data-target="#<?php echo e($wordlist->word); ?>">
                       <span style="font-size:1.5em;"> <?php echo e($wordlist->word); ?> </span>
                     </button>
                     <button type="button" class="btn btn-light" onclick="hideWord(<?php echo e($wordlist->id); ?>)" >隐藏</button>
