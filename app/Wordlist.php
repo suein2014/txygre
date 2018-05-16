@@ -290,4 +290,21 @@ class Wordlist extends Model
     return $data;
   }
 
+
+  public function getStrType($str){
+      $slen = strlen($str);
+      $mlen = mb_strlen($str,'utf-8');
+
+      if($slen==$mlen){
+        return 'en';
+      }
+
+      if($slen%$mlen==0 && $slen%3==0 ){
+        return 'zh';
+      }
+
+      return 'en-zh';
+
+  }
+
 }

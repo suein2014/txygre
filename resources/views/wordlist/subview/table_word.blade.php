@@ -23,6 +23,6 @@
           @endforeach
       </tbody>
     </table>
-    <div style="float:right">{{$wordlists->appends(['type'=>$type])->links()}}</div>
+    
   </div>
 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// use Illuminate\Support\Facades\DB;
 use App\Wordlist;
 
 class WordlistController extends Controller
@@ -224,38 +225,48 @@ class WordlistController extends Controller
       $type = 'list';
       $currentPage = 1;
 
-      $wordlist = Wordlist::where('word',$searchWord)->first();
-      if (empty($wordlist)){
+      $strType= $this->wordModel->getStrType($searchWord);
+      if($strType=='en'){
+        $wordlist = Wordlist::where('word','LIKE','%'.$searchWord.'%')->get();
+      }elseif($strType=='zh'){
+        //搜索中文
+        // 1. 去掉转成json串后自动加的""双引号,
+        // 2. 中文为形如\u...的格式，将\替换为_(通配符)，,要不然mysql需转义需写为一模一样才能匹配
+       $searchWord = str_replace('\\','_',trim(json_encode($searchWord), '"'));
+       $wordlist = Wordlist::where('contents','LIKE','%'.$searchWord.'%')->get();
+      }
+
+      if ($wordlist->isEmpty()){
         return view('wordlist/noresult',['type'=>$type]);
       }
 
-      list($wordlist->contents,$wordlist->phrase,$wordlist->example)
-        = $this->wordModel->getJsonDecodeData(
-          array($wordlist->contents,$wordlist->phrase,$wordlist->example));
+      // list($wordlist->contents,$wordlist->phrase,$wordlist->example)
+      //   = $this->wordModel->getJsonDecodeData(
+      //     array($wordlist->contents,$wordlist->phrase,$wordlist->example));
 
-      //需要抓Online Dict数据，（目前支持搜索后跟随入库）
-      if( empty($wordlist->contents) || empty($wordlist->phrase) ||
-          empty($wordlist->example) ) {
+      // //需要抓Online Dict数据，（目前支持搜索后跟随入库）
+      // if( empty($wordlist->contents) || empty($wordlist->phrase) ||
+      //     empty($wordlist->example) ) {
+      //
+      //     list($contents,$phrase,$example) = $this->wordModel->getWordInfoFromOnlineDict($wordlist->word);
+      //
+      //     //for Update DB
+      //     $updateWordlist = Wordlist::find($wordlist->id);
+      //     $updateWordlist->contents = $contents;
+      //     $updateWordlist->phrase = $phrase;
+      //     $updateWordlist->example = $example;
+      //     $updateWordlist->save();
+      //
+      //     // for Showing in Search page
+      //     $wordlist->contents = json_decode($contents);
+      //     $wordlist->phrase = json_decode($phrase);
+      //     $wordlist->example = json_decode($example);
+      // }
 
-          list($contents,$phrase,$example) = $this->wordModel->getWordInfoFromOnlineDict($wordlist->word);
 
-          //for Update DB
-          $updateWordlist = Wordlist::find($wordlist->id);
-          $updateWordlist->contents = $contents;
-          $updateWordlist->phrase = $phrase;
-          $updateWordlist->example = $example;
-          $updateWordlist->save();
-
-          // for Showing in Search page
-          $wordlist->contents = json_decode($contents);
-          $wordlist->phrase = json_decode($phrase);
-          $wordlist->example = json_decode($example);
-      }
-
-
-      return view('wordlist/show',['type'=>$type,'colors'=>WordList::colors,
+      return view('wordlist/search',['type'=>$type,'colors'=>WordList::colors,
               'currentPage'=>$currentPage])
-              ->withWordlist($wordlist);
+              ->withWordlists($wordlist);
 
     }
 
