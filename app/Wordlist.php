@@ -41,13 +41,13 @@ class Wordlist extends Model
 
     $handle = fopen($rFileDir, "r"); //open file
     if ($handle) {
-        echo "start...".PHP_EOL;
+        echo "-------Start...------".PHP_EOL;
         while (($line = fgets($handle)) !== false) { //read file line by line
             if($count > $sleepCount && $count%$sleepCount ==0){
               sleep($sleepTime);
             }
             $count += 1;
-            echo $count.':'.$line.'...';
+            echo $count.':'.$line;
             //get all Chinese explanation for the current word
             list($writeWord,) = $this->translateByWord( trim($line) );
             if($writeWord){
@@ -59,6 +59,7 @@ class Wordlist extends Model
 
         }
         fclose($handle); //close the file.
+        echo '--------End-------';
     }
   }
 

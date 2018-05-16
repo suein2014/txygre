@@ -7,10 +7,8 @@
             <i style="color:{{$colors[$wordlist->familiar]}}" class="fas fa-star"></i>
             <span> {{$wordlist->word}} </span>
           </h4>
-          &nbsp;&nbsp;&nbsp;
           @includeIf('wordlist.subview.hard_color')
-          &nbsp;<span style="color:Grey"> Page:{{$wordlist->page_number}}</span>
-          <span style="color: grey;"> &nbsp;Id:{{$wordlist->id}} </span>
+          @includeIf('wordlist.subview.all_ids')
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
