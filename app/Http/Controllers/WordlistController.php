@@ -119,7 +119,36 @@ class WordlistController extends Controller
     }
 
 
+    /*乱序版*/
+    public function quicklearn($listNumber,Request $request)
+    {
+      $type = $request->has('type') ? $request->type : 'alphabet'; //sort
+      $currentPage = $request->has('page') ? $request->page : 1;
+      $hardLevel = $request->has('hard') ? $request->hard : 0;
 
+      $wordlists = Wordlist::where('list_number',$listNumber)
+              ->where('familiar','>',$hardLevel);
+
+      switch($type){
+        // case 'list_desc':
+        //   $wordlists = $wordlists->orderBy('id','desc'); break;
+        // case 'hard': //familiar desc
+        //   $wordlists = $wordlists->orderBy('familiar','desc'); break;
+        // case 'hard_desc':
+        //   $wordlists = $wordlists->orderBy('familiar'); break;
+        case 'alphabet':
+          $wordlists = $wordlists->orderBy('word'); break;
+        // case 'alphabet_desc':
+        //   $wordlists = $wordlists->orderBy('word','desc'); break;
+      }
+      $count = $wordlists->count();
+      $wordlists = $wordlists->paginate(150);
+
+      return view('wordlist/quicklearn',['pathId'=>$listNumber,'type'=>$type,
+          'colors'=>WordList::colors,'currentPage'=>$currentPage,'path'=>'list',
+          'hard'=>$hardLevel,'count'=>$count,])
+          ->withWordlists($wordlists);
+    }
 
 
 

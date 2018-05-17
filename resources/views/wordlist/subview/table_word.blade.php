@@ -18,11 +18,15 @@
           @foreach ($wordlists as $loopId=>$wordlist)
           <tr id="hwl{{$wordlist->id}}">
             <!-- <td>{{$loopId+1}}</td> -->
-            @includeIf('wordlist.subview.page_word')
+            @if (!isset($wtype))
+              @includeIf('wordlist.subview.page_word')
+            @else ( $wtype=='quicklearn' )
+              @includeIf('wordlist.subview.quicklearn_word')
+            @endif
           </tr>
           @endforeach
       </tbody>
     </table>
-    
+
   </div>
 </div>

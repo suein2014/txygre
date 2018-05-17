@@ -2,27 +2,45 @@
   {{ $wordlist->contents }}
 @else
     @if (!isset($list))
-      <span style="color: blue;">{{$wordlist->contents->phonitic}}</span>
+      <span style="color: black;">{{$wordlist->contents->phonitic}}</span>
     @endif
-    @if (count($wordlist->contents->explain) > 1 )
-      <ol>
-        @foreach ($wordlist->contents->explain as $exp)
-          @if (isset($list))
-            <li style="font-weight:bold">
+    @if(!isset($quicklearn))
+          @if (count($wordlist->contents->explain) > 1 )
+            <ol>
+              @foreach ($wordlist->contents->explain as $exp)
+                @if (isset($list))
+                  <li style="font-weight:bold">
+                @else
+                  <li>
+                @endif
+                {!! html_entity_decode($exp) !!}</li>
+              @endforeach
+            </ol>
           @else
-            <li>
+            @foreach ($wordlist->contents->explain as $exp)
+              @if (isset($list))
+                  <div style="font-weight:bold">
+              @else
+                <div>
+              @endif
+              {!! html_entity_decode($exp) !!} </div>
+            @endforeach
           @endif
-          {!! html_entity_decode($exp) !!}</li>
-        @endforeach
-      </ol>
     @else
-      @foreach ($wordlist->contents->explain as $exp)
-        @if (isset($list))
-          <div style="font-weight:bold">
+      <!-- For QuickLearn word -->
+      @if($wordlist->familiar>6)
+        @if (count($wordlist->contents->explain) > 1 )
+            @foreach ($wordlist->contents->explain as $k => $exp)
+              <span style="font-size:12px;">{{$k+1}}. {!! html_entity_decode($exp) !!}<span><br>
+            @endforeach
         @else
-          <div>
+            @foreach ($wordlist->contents->explain as $k => $exp)
+              <span style="font-size:12px;">{{$exp}}<span>
+            @endforeach
         @endif
-        {!! html_entity_decode($exp) !!} </div>
-      @endforeach
+        <span style="font-size:10px;color: blue;font-style:italic">{{$wordlist->contents->phonitic}}</span>
+      @endif
     @endif
+
+
 @endif
