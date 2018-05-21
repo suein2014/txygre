@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(url('css/mysidebar.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(url('css/mysbacktop.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(url('css/fontawesome-all.min.css')); ?>" rel="stylesheet">
 
 </head>
@@ -114,9 +115,9 @@
                   </li>
                   <li class="nav-item">
                     <?php if( substr(Request::path(),0,19) == 'wordlist/quicklearn'): ?>
-                      <a style="font-size:20px" class="nav-link active" href="<?php echo e(url('wordlist/quicklearn/1')); ?>">
+                      <a style="font-size:20px" class="nav-link active" href="<?php echo e(url('wordlist/quicklearn/A')); ?>">
                     <?php else: ?>
-                      <a class="nav-link" href="<?php echo e(url('wordlist/quicklearn/1')); ?>">
+                      <a class="nav-link" href="<?php echo e(url('wordlist/quicklearn/A')); ?>">
                     <?php endif; ?>
                       <span data-feather="wordlistquicklearn"></span>
                       <i class="fas fa-clipboard"></i>
@@ -158,13 +159,17 @@
 </body>
 
 <script>
-  // $function(){
-  //   $('sortTab a').click(function e){
-  //     e.preventDefault();
-  //     $(this).tab('show');
-  //   }
-  // }
-  //
+$(function(){
+    $("a.arrow").eq(0).click(function(){
+      $("html,body").animate({scrollTop :0}, 300);
+      return false;
+    });
+    // $("a.arrow").eq(1).click(function(){
+    //   $("html,body").animate({scrollTop : $(document).height()}, 300);
+    //   return false;
+    // });
+
+});
   function hideWord($id){
      var $cwid = 'cw'+ $id;
 

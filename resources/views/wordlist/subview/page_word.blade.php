@@ -10,7 +10,7 @@
   @endif
   <span style="font-size:20px">{{ $wordlist->word }}</span>
   </a>
-  @if ( !empty($wordlist->contents=json_decode($wordlist->contents)) )
+  @if(!is_string($wordlist->contents=(json_decode($wordlist->contents) ? json_decode($wordlist->contents) : $wordlist->contents ) ) )
     <p><span style="color: black;">{{$wordlist->contents->phonitic}}</span></p>
   @endif
 

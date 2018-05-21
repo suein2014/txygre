@@ -10,8 +10,8 @@
       <thead>
         <tr>
           <!-- <th>#</th> -->
-          <th width="18%">word</th>
-          <th width="82%">contents</th>
+          <th class="word" width="{{isset($wtype) ? '12%' : '18%'}}">word</th>
+          <th class="word" width="{{isset($wtype) ? '88%' : '82%'}}">contents</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +25,7 @@
             @endif
           </tr>
           @endforeach
+
       </tbody>
     </table>
 

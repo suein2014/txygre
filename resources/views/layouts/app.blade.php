@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/mysidebar.css') }}" rel="stylesheet">
+    <link href="{{ url('css/mysbacktop.css') }}" rel="stylesheet">
     <link href="{{ url('css/fontawesome-all.min.css') }}" rel="stylesheet">
 
 </head>
@@ -112,9 +113,9 @@
                   </li>
                   <li class="nav-item">
                     @if ( substr(Request::path(),0,19) == 'wordlist/quicklearn')
-                      <a style="font-size:20px" class="nav-link active" href="{{url('wordlist/quicklearn/1')}}">
+                      <a style="font-size:20px" class="nav-link active" href="{{url('wordlist/quicklearn/A')}}">
                     @else
-                      <a class="nav-link" href="{{url('wordlist/quicklearn/1')}}">
+                      <a class="nav-link" href="{{url('wordlist/quicklearn/A')}}">
                     @endif
                       <span data-feather="wordlistquicklearn"></span>
                       <i class="fas fa-clipboard"></i>
@@ -156,13 +157,17 @@
 </body>
 
 <script>
-  // $function(){
-  //   $('sortTab a').click(function e){
-  //     e.preventDefault();
-  //     $(this).tab('show');
-  //   }
-  // }
-  //
+$(function(){
+    $("a.arrow").eq(0).click(function(){
+      $("html,body").animate({scrollTop :0}, 300);
+      return false;
+    });
+    // $("a.arrow").eq(1).click(function(){
+    //   $("html,body").animate({scrollTop : $(document).height()}, 300);
+    //   return false;
+    // });
+
+});
   function hideWord($id){
      var $cwid = 'cw'+ $id;
 

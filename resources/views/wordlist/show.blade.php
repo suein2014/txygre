@@ -27,7 +27,8 @@
     </div>
     <div id="content" style="margin: 20px;">
         <p>
-            page: {{ $wordlist->page_number }} |  id:{{ $wordlist->id }}
+            page: {{ $wordlist->page_number }} |  id:{{ $wordlist->id }} |
+              <a style="color: grey;" type="button" target="_blank" href="{{url('admin/wordlists/'.$wordlist->id.'/edit')}}">编辑</a>
         </p>
     </div>
 

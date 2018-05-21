@@ -119,34 +119,32 @@ class WordlistController extends Controller
     }
 
 
-    /*乱序版*/
-    public function quicklearn($listNumber,Request $request)
+    /*快速背*/
+    public function quicklearn($pathId,Request $request)
     {
-      $type = $request->has('type') ? $request->type : 'alphabet'; //sort
+      $type = $request->has('type') ? $request->type : 'alphabet';
       $currentPage = $request->has('page') ? $request->page : 1;
       $hardLevel = $request->has('hard') ? $request->hard : 0;
 
-      $wordlists = Wordlist::where('list_number',$listNumber)
+      $wordlists = Wordlist::where('list_number',$pathId)
               ->where('familiar','>',$hardLevel);
 
       switch($type){
-        // case 'list_desc':
-        //   $wordlists = $wordlists->orderBy('id','desc'); break;
-        // case 'hard': //familiar desc
-        //   $wordlists = $wordlists->orderBy('familiar','desc'); break;
-        // case 'hard_desc':
-        //   $wordlists = $wordlists->orderBy('familiar'); break;
+         case 'list':
+              $wordlists = Wordlist::where('list_number',$pathId)
+                 ->where('familiar','>',$hardLevel); break;
         case 'alphabet':
-          $wordlists = $wordlists->orderBy('word'); break;
-        // case 'alphabet_desc':
-        //   $wordlists = $wordlists->orderBy('word','desc'); break;
+              $wordlists = Wordlist::where('initial',$pathId)
+                  ->where('familiar','>',$hardLevel); break;
       }
-      $count = $wordlists->count();
-      $wordlists = $wordlists->paginate(150);
 
-      return view('wordlist/quicklearn',['pathId'=>$listNumber,'type'=>$type,
-          'colors'=>WordList::colors,'currentPage'=>$currentPage,'path'=>'list',
-          'hard'=>$hardLevel,'count'=>$count,])
+      $wordlists = $wordlists->orderBy('word');
+      $wordlists = $wordlists->paginate(150);
+      $count = $wordlists->total();
+
+      return view('wordlist/quicklearn',['pathId'=>$pathId,'type'=>$type,
+          'colors'=>WordList::colors,'currentPage'=>$currentPage,
+          'hard'=>$hardLevel,'count'=>$count,'alphabet'=>$this->alphabet])
           ->withWordlists($wordlists);
     }
 
