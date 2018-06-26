@@ -28,7 +28,7 @@
           @endif
     @else
       <!-- For QuickLearn word -->
-      @if($wordlist->familiar>6)
+      @if($wordlist->familiar>4)
         @if (count($wordlist->contents->explain) > 1 )
             @foreach ($wordlist->contents->explain as $k => $exp)
               <span style="font-size:12px;">{{$k+1}}. {!! html_entity_decode($exp) !!}</span><br>

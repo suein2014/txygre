@@ -102,9 +102,9 @@
                   </li>
                   <li class="nav-item">
                     @if ( substr(Request::path(),0,13) == 'wordlist/card')
-                      <a style="font-size:20px" class="nav-link active" href="{{url('wordlist/card')}}">
+                      <a style="font-size:20px" class="nav-link active" href="{{url('wordlist/card?type=list')}}">
                     @else
-                      <a class="nav-link" href="{{url('wordlist/card')}}">
+                      <a class="nav-link" href="{{url('wordlist/card?type=list')}}">
                     @endif
                       <span data-feather="wordlistcard"></span>
                       <i class="far fa-clipboard"></i>
@@ -113,9 +113,9 @@
                   </li>
                   <li class="nav-item">
                     @if ( substr(Request::path(),0,19) == 'wordlist/quicklearn')
-                      <a style="font-size:20px" class="nav-link active" href="{{url('wordlist/quicklearn/A')}}">
+                      <a style="font-size:20px" class="nav-link active" href="{{url('wordlist/quicklearn/1?type=list')}}">
                     @else
-                      <a class="nav-link" href="{{url('wordlist/quicklearn/A')}}">
+                      <a class="nav-link" href="{{url('wordlist/quicklearn/1?type=list')}}">
                     @endif
                       <span data-feather="wordlistquicklearn"></span>
                       <i class="fas fa-clipboard"></i>

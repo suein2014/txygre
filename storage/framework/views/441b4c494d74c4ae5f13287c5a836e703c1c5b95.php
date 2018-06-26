@@ -104,9 +104,9 @@
                   </li>
                   <li class="nav-item">
                     <?php if( substr(Request::path(),0,13) == 'wordlist/card'): ?>
-                      <a style="font-size:20px" class="nav-link active" href="<?php echo e(url('wordlist/card')); ?>">
+                      <a style="font-size:20px" class="nav-link active" href="<?php echo e(url('wordlist/card?type=list')); ?>">
                     <?php else: ?>
-                      <a class="nav-link" href="<?php echo e(url('wordlist/card')); ?>">
+                      <a class="nav-link" href="<?php echo e(url('wordlist/card?type=list')); ?>">
                     <?php endif; ?>
                       <span data-feather="wordlistcard"></span>
                       <i class="far fa-clipboard"></i>
@@ -115,9 +115,9 @@
                   </li>
                   <li class="nav-item">
                     <?php if( substr(Request::path(),0,19) == 'wordlist/quicklearn'): ?>
-                      <a style="font-size:20px" class="nav-link active" href="<?php echo e(url('wordlist/quicklearn/A')); ?>">
+                      <a style="font-size:20px" class="nav-link active" href="<?php echo e(url('wordlist/quicklearn/1?type=list')); ?>">
                     <?php else: ?>
-                      <a class="nav-link" href="<?php echo e(url('wordlist/quicklearn/A')); ?>">
+                      <a class="nav-link" href="<?php echo e(url('wordlist/quicklearn/1?type=list')); ?>">
                     <?php endif; ?>
                       <span data-feather="wordlistquicklearn"></span>
                       <i class="fas fa-clipboard"></i>
