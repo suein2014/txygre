@@ -67,6 +67,7 @@ class WordlistController extends Controller
            $wordlist->familiar = $familiar;
            $wordlist->list_number = $listNumber;
            $wordlist->page_number = $pageNumbber;
+           $wordlist->length = strlen($wordlist->word);
 
 
            if(empty($wordlist->contents) ||
@@ -126,6 +127,7 @@ class WordlistController extends Controller
         $wordlist = Wordlist::findOrFail($id);
         //if(empty($wordlist->initial)){
         $wordlist->initial= ucfirst(substr($wordlist->word,0,1));
+        $wordlist->length = strlen($wordlist->word);
         //}
 
         foreach (array_keys($this->fields) as $field) {

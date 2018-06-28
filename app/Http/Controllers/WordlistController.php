@@ -224,27 +224,46 @@ class WordlistController extends Controller
       /*难度版*/
     public function familiar($hardLevel,Request $request)
     {
+
+        return $this->showWordlistByWordIntAttribute('familiar',$hardLevel,$request);
+
+    }
+
+
+    /*长度版*/
+    public function length($length,Request $request)
+    {
+
+      return  $this->showWordlistByWordIntAttribute('length',$length,$request);
+
+    }
+
+    //根据单词本身整形属性，如熟练度、单词长度等，提炼出的工厂方法
+    private function showWordlistByWordIntAttribute($wordAttribute,$value,$request)
+      {
         $type = $request->has('type') ? $request->type : 'alphabet';
         $currentPage = $request->has('page') ? $request->page : 1;
 
-        $wl = Wordlist::where('familiar',$hardLevel);
-        switch($type){
-          case 'alphabet':  //familiar desc
-            $wordlist = $wl->orderBy('word'); break;
-          case 'alphabet_desc':
-            $wordlist = $wl->orderBy('word','desc'); break;
-          case 'list':
-            $wordlist = $wl->orderBy('id'); break;
-          case 'list_desc':
-            $wordlist = $wl->orderBy('id','desc'); break;
-        }
-        $wordlist = $wordlist->paginate($this->pageCount);
+          $wl = Wordlist::where("$wordAttribute",$value);
+          switch($type){
+            case 'alphabet':  //familiar desc
+              $wordlist = $wl->orderBy('word'); break;
+            case 'alphabet_desc':
+              $wordlist = $wl->orderBy('word','desc'); break;
+            case 'list':
+              $wordlist = $wl->orderBy('id'); break;
+            case 'list_desc':
+              $wordlist = $wl->orderBy('id','desc'); break;
+          }
+          $wordlist = $wordlist->paginate($this->pageCount);
 
-        return view('wordlist/familiar',['pathId'=>$hardLevel,'type'=>$type,
-          'currentPage'=>$currentPage,'colors'=>WordList::colors,
-          'alphabet'=>$this->alphabet])
-          ->withWordlists($wordlist);
-    }
+          return view('wordlist/'.$wordAttribute,['pathId'=>$value,'type'=>$type,
+            'currentPage'=>$currentPage,'colors'=>WordList::colors,
+            'alphabet'=>$this->alphabet])
+            ->withWordlists($wordlist);
+      }
+
+
 
     /*搜索框*/
     public function search(Request $request){

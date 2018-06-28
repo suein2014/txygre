@@ -79,6 +79,36 @@
     </div>
 </div>
 </td>
+
+
+<td>
+<div class="card">
+    <div class="card-header">Wordlist-单词数</div>
+    <div class="card-body">
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <div id="content">
+          <ul>
+              @for ($i=3; $i<19;$i++)
+              <li style="margin: 50px 0;">
+                  <div class="list">
+                      <a href="{{ url('wordlist/length/'.$i) }}">
+                          <h4>{{$i}}个字母</h4>
+                      </a>
+                  </div>
+              </li>
+              @endfor
+          </ul>
+        </div>
+    </div>
+</div>
+</td>
+
+
 </tr>
 </tbody>
 </table>

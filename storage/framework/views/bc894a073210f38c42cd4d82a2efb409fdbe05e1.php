@@ -79,6 +79,37 @@
     </div>
 </div>
 </td>
+
+
+<td>
+<div class="card">
+    <div class="card-header">Wordlist-单词数</div>
+    <div class="card-body">
+        <?php if(session('status')): ?>
+            <div class="alert alert-success">
+                <?php echo e(session('status')); ?>
+
+            </div>
+        <?php endif; ?>
+
+        <div id="content">
+          <ul>
+              <?php for($i=3; $i<19;$i++): ?>
+              <li style="margin: 50px 0;">
+                  <div class="list">
+                      <a href="<?php echo e(url('wordlist/length/'.$i)); ?>">
+                          <h4><?php echo e($i); ?>个字母</h4>
+                      </a>
+                  </div>
+              </li>
+              <?php endfor; ?>
+          </ul>
+        </div>
+    </div>
+</div>
+</td>
+
+
 </tr>
 </tbody>
 </table>
