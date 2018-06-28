@@ -29,6 +29,7 @@
                             <th>Initial</th>
                             <th>word</th>
                             <th>操作</th>
+                            <th>Length</th>
                             <th>familiar</th>
                             <th>list</th>
                             <th>page</th>
@@ -53,6 +54,7 @@
                                   <td>
                                     <a href="{{ url('admin/wordlists/'.$wordlist->id.'/edit?page='.$currentPage.'#'.$wordlist->id ) }}" class="btn btn-success btn-sm">编辑</a>
                                   </td>
+                                  <td>{{ $wordlist->length}}</td>
                                   <td>{{ $wordlist->familiar }}</td>
                                   <td>{{ $wordlist->list_number }}</td>
                                   <td>{{ $wordlist->page_number }}</td>
