@@ -53,6 +53,7 @@ class WordlistController extends Controller
 
       list($write,$d) = $this->wordModel->translateByWord($word);
       var_dump($write);var_dump($d);exit;
+
       // return view('wordlist/test',['data'=>$data]);
 
       // list($contents,$phrase,$example) = $this->wordModel->getWordInfoTest();
@@ -278,7 +279,7 @@ class WordlistController extends Controller
         //搜索中文
         // 1. 去掉转成json串后自动加的""双引号,
         // 2. 中文为形如\u...的格式，将\替换为_(通配符)，,要不然mysql需转义需写为一模一样才能匹配
-       $searchWord = str_replace('\\','_',trim(json_encode($searchWord), '"'));
+       $searchWord = str_replace('\\','_',trim(json_encode($searchWord,JSON_UNESCAPED_UNICODE), '"'));
        $wordlist = Wordlist::where('contents','LIKE','%'.$searchWord.'%')->get();
       }
 

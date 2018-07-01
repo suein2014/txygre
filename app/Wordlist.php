@@ -67,7 +67,7 @@ class Wordlist extends Model
   public function translateByWord($word){
     $xmlData=$this->getOnlineTranslate($word);
     $dataObj = simplexml_load_string($xmlData);
-    $data = json_decode(json_encode($dataObj),true);
+    $data = json_decode(json_encode($dataObj,JSON_UNESCAPED_UNICODE),true);
 
     $d=$write = array();
     if(isset($data['pos'])){
@@ -171,7 +171,7 @@ class Wordlist extends Model
       }
     }
     $contents = array('phonitic'=>$phonitic,'explain'=>$explain);
-    return json_encode($contents);
+    return json_encode($contents,JSON_UNESCAPED_UNICODE);
   }
 
 
@@ -193,7 +193,7 @@ class Wordlist extends Model
         $insertPhrase = $this->filterWordInfo($phrase,'phrase');
     }
     $insertPhrase = !empty($insertPhrase) ? $insertPhrase : '查不到';
-    return json_encode($insertPhrase);
+    return json_encode($insertPhrase,JSON_UNESCAPED_UNICODE);
   }
 
 
@@ -203,7 +203,7 @@ class Wordlist extends Model
     $example = QueryList::html($htmlContents)->find('div.content')->htmls();
     $insertExample = $this->filterWordInfo($example,'example');
     $insertExample = !empty($insertExample) ? $insertExample : '查不到';
-    return json_encode($insertExample);
+    return json_encode($insertExample,JSON_UNESCAPED_UNICODE);
   }
 
   /**
